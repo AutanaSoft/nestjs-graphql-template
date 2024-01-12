@@ -4,6 +4,19 @@
   "description": "Template for Nestjs services with Fastify, SWC, GraphQL and Prisma",
   "author": "admin@autanasoft.com",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AutanaSoft/nestjs-graphql-template/issues"
+  },
+  "homepage": "https://github.com/AutanaSoft/nestjs-graphql-template#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AutanaSoft/nestjs-graphql-template.git"
+  },
+  "keywords": [
+    "typescript",
+    "nestjs",
+    "template"
+  ],
   "engines": {
     "node": ">=18.x",
     "pnpm": ">=8.x"
