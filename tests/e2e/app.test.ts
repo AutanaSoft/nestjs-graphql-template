@@ -24,4 +24,11 @@ describe('Main', () => {
   it('/GET main', () => {
     return request(app.getHttpServer()).get('/main').expect(200).expect({ status: 'ok' });
   });
+
+  it('/POST welcome', () => {
+    return request(app.getHttpServer())
+      .post('/graphql')
+      .send({ query: 'query Query {\r\n  getHello\r\n}', variables: {}, operationName: 'Query' })
+      .expect(200);
+  });
 });

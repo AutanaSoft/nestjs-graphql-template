@@ -13,7 +13,7 @@ describe('HealthController', () => {
   });
 
   describe('run', () => {
-    it('should return is healthy', () => {
+    it('should return is main', () => {
       expect(mainController.run()).toEqual({ status: 'ok' });
       expect(logger.log).toHaveBeenCalledTimes(1);
     });
