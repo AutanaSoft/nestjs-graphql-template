@@ -17,7 +17,9 @@ async function bootstrap() {
       logger.error(err);
       process.exit(1);
     }
-    logger.log(`App is ready and listening on port ${address} 🚀`);
+    logger.log(`Server ready at:  ${address} 🚀`);
+    const graphqlPath = configService.get<string>('GRAPHQL_PATH', '/graphql');
+    logger.log(`GraphQL ready at: ${address}${graphqlPath} 🚀`);
   });
 }
 bootstrap();

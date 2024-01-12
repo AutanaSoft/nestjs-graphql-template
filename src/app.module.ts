@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { LoggerModule } from './core/logger/logger.module';
 import { MainModule } from './core/main/main.module';
+import { GraphqlModule } from './graphql/graphql.module';
 import { PrismaService } from './prisma.service';
 
 @Module({
@@ -10,6 +11,7 @@ import { PrismaService } from './prisma.service';
     ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env.local', '.env'], cache: true }),
     LoggerModule,
     MainModule,
+    GraphqlModule,
   ],
   controllers: [],
   providers: [PrismaService],
