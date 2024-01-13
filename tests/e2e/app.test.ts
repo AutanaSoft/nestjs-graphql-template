@@ -28,7 +28,11 @@ describe('Main', () => {
   it('/POST welcome', () => {
     return request(app.getHttpServer())
       .post('/graphql')
-      .send({ query: 'query Query {\r\n  getHello\r\n}', variables: {}, operationName: 'Query' })
+      .send({
+        query: 'query Query($name: String!) {\r\n  getHello(name: $name)\r\n}',
+        variables: { name: 'Leandro Cardenas' },
+        operationName: 'Query',
+      })
       .expect(200);
   });
 });
