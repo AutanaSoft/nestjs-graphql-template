@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
@@ -7,11 +7,17 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
-  const configService = app.get(ConfigService);
-  const port = configService.get<string>('APP_PORT', '3000');
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+    }),
+  );
 
   const logger = app.get(Logger);
+  const configService = app.get(ConfigService);
 
+  const port = configService.get<string>('APP_PORT', '3000');
   await app.listen(port, '127.0.0.1', (err, address) => {
     if (err) {
       logger.error(err);
@@ -22,4 +28,5 @@ async function bootstrap() {
     logger.log(`GraphQL ready at: ${address}${graphqlPath} 🚀`);
   });
 }
+
 bootstrap();

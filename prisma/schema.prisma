@@ -10,12 +10,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model UserEntity {
+generator nestgraphql {
+  provider             = "prisma-nestjs-graphql"
+  output               = "../src/graphql/generated"
+  combineScalarFilters = true
+  noAtomicOperations   = true
+  reExport             = Directories
+}
+
+enum Status {
+  REGISTERED
+  ACTIVE
+  INACTIVE
+  LOCKED
+  FROZEN
+  BANNED
+  DELETED
+}
+
+enum Roles {
+  GUEST
+  CUSTOMER
+  INTERNAL
+  ADMIN
+}
+
+model User {
+  /// @HideField({ input: true })
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  status    Status   @default(REGISTERED)
+  roles     Roles    @default(CUSTOMER)
   email     String   @unique @db.VarChar(60)
-  name      String   @db.VarChar(60)
+  userName  String   @db.VarChar(60)
+  /// @HideField({ match: 'UserEntityUpdateInput', output: false })
   password  String   @db.VarChar(60)
+  /// @HideField({ match: 'UserEntity@(Update|Create)Input'})
   createdAt DateTime @default(now())
+  /// @HideField({ match: 'UserEntity@(Update|Create)Input'})
   updatedAt DateTime @updatedAt
 
   @@map("users")
