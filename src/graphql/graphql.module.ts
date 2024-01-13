@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 
+import { UserModule } from './user/user.module';
 import { WelcomeModule } from './welcome/welcome.module';
 
 @Module({
@@ -16,8 +17,7 @@ import { WelcomeModule } from './welcome/welcome.module';
       sortSchema: true,
     }),
     WelcomeModule,
+    UserModule,
   ],
-  providers: [],
-  exports: [],
 })
 export class GraphqlModule {}

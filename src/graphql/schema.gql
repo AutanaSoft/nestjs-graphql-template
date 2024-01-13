@@ -2,6 +2,174 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: DateTimeFilter
+  notIn: [DateTime!]
+}
+
+input EnumRolesFilter {
+  equals: Roles
+  in: [Roles!]
+  not: EnumRolesFilter
+  notIn: [Roles!]
+}
+
+input EnumStatusFilter {
+  equals: Status
+  in: [Status!]
+  not: EnumStatusFilter
+  notIn: [Status!]
+}
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
 type Query {
-  getHello: String!
+  getHello(name: String!): String!
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+enum Roles {
+  ADMIN
+  CUSTOMER
+  GUEST
+  INTERNAL
+}
+
+enum Status {
+  ACTIVE
+  BANNED
+  DELETED
+  FROZEN
+  INACTIVE
+  LOCKED
+  REGISTERED
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: StringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  roles: Roles!
+  status: Status!
+  updatedAt: DateTime!
+  userName: String!
+}
+
+type UserCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  email: Int!
+  id: Int!
+  roles: Int!
+  status: Int!
+  updatedAt: Int!
+  userName: Int!
+}
+
+input UserCreateInput {
+  email: String!
+  password: String!
+  roles: Roles
+  status: Status
+  userName: String!
+}
+
+type UserMaxAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  roles: Roles
+  status: Status
+  updatedAt: DateTime
+  userName: String
+}
+
+type UserMinAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  roles: Roles
+  status: Status
+  updatedAt: DateTime
+  userName: String
+}
+
+input UserUpdateInput {
+  email: String
+  roles: Roles
+  status: Status
+  userName: String
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  createdAt: DateTimeFilter
+  email: StringFilter
+  id: UuidFilter
+  password: StringFilter
+  roles: EnumRolesFilter
+  status: EnumStatusFilter
+  updatedAt: DateTimeFilter
+  userName: StringFilter
+}
+
+input UserWhereUniqueInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  createdAt: DateTimeFilter
+  email: String
+  id: String
+  password: StringFilter
+  roles: EnumRolesFilter
+  status: EnumStatusFilter
+  updatedAt: DateTimeFilter
+  userName: StringFilter
+}
+
+input UuidFilter {
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: UuidFilter
+  notIn: [String!]
 }

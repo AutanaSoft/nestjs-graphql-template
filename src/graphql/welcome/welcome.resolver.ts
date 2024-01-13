@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 
 import { WelcomeService } from './welcome.service';
 
@@ -7,7 +7,7 @@ export class WelcomeResolver {
   constructor(private readonly welcomeService: WelcomeService) {}
 
   @Query(() => String)
-  async getHello() {
-    return this.welcomeService.getHello();
+  async getHello(@Args('name') name: string) {
+    return this.welcomeService.getHello(name);
   }
 }

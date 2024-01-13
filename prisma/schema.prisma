@@ -36,17 +36,17 @@ enum Roles {
 }
 
 model User {
-  /// @HideField({ input: true })
+  /// @HideField({ match: 'User@(Update|Create)Input'})
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   status    Status   @default(REGISTERED)
   roles     Roles    @default(CUSTOMER)
   email     String   @unique @db.VarChar(60)
   userName  String   @db.VarChar(60)
-  /// @HideField({ match: 'UserEntityUpdateInput', output: false })
+  /// @HideField({ match: 'UserUpdateInput', output: true })
   password  String   @db.VarChar(60)
-  /// @HideField({ match: 'UserEntity@(Update|Create)Input'})
+  /// @HideField({ match: 'User@(Update|Create)Input'})
   createdAt DateTime @default(now())
-  /// @HideField({ match: 'UserEntity@(Update|Create)Input'})
+  /// @HideField({ match: 'User@(Update|Create)Input'})
   updatedAt DateTime @updatedAt
 
   @@map("users")
