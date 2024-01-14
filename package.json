@@ -23,7 +23,8 @@
   },
   "main": "dist/main.js",
   "scripts": {
-    "build": "pnpm build:clean && pnpm prisma generate && pnpm lint:fix && nest build --path tsconfig.prod.json",
+    "dev": "nest start --watch",
+    "build": "pnpm build:clean && pnpm prisma generate && pnpm lint:fix && nest build",
     "start": "node dist/main.js",
     "start:dev": "tsnd --inspect=0.0.0.0:9229 --respawn src/main.ts",
     "test": "rimraf coverage .nyc_output && concurrently 'pnpm:test:unit' 'pnpm:test:e2e' && pnpm coverage:merge",
