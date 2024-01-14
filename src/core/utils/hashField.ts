@@ -1,5 +1,10 @@
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 
+/**
+ * Hashes a password using a salt.
+ * @param password - The password to be hashed.
+ * @returns The hashed password.
+ */
 export const hashField = (password: string): string => {
   const salt = genSaltSync(10);
   return hashSync(password, salt);
