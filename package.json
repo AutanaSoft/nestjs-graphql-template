@@ -23,7 +23,7 @@
   },
   "main": "dist/main.js",
   "scripts": {
-    "build": "npm run build:clean && npx prisma generate && nest build --path tsconfig.prod.json",
+    "build": "npm run build:clean && npx prisma generate && npm run lint:fix && nest build --path tsconfig.prod.json",
     "start": "node dist/main.js",
     "start:dev": "tsnd --inspect=0.0.0.0:9229 --respawn src/main.ts",
     "test": "rimraf coverage .nyc_output && concurrently 'npm:test:unit' 'npm:test:e2e' && npm run coverage:merge",
