@@ -11,9 +11,19 @@ datasource db {
 }
 
 generator nestgraphql {
-  provider             = "prisma-nestjs-graphql"
-  output               = "../src/graphql/generated"
-  reExport             = Directories
+  provider               = "prisma-nestjs-graphql"
+  output                 = "../src/core/graphql/@generated"
+  reExport               = Directories
+  noAtomicOperations     = true
+  // field validator
+  fields_Validator_from  = "class-validator"
+  fields_Validator_input = true
+  // Args where|data nested validator
+  decorate_1_type        = "*Args"
+  decorate_1_field       = "@(data|where)"
+  decorate_1_name        = ValidateNested
+  decorate_1_from        = "class-validator"
+  decorate_1_arguments   = "[]"
 }
 
 enum Status {
@@ -38,9 +48,20 @@ model User {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   status    Status   @default(REGISTERED)
   roles     Roles    @default(CUSTOMER)
+  /// @Validator.MaxLength(60)
+  /// @Validator.MinLength(8)
+  /// @Validator.IsEmail()
   email     String   @unique @db.VarChar(60)
-  userName  String   @db.VarChar(60)
+  /// @Validator.MaxLength(20)
+  /// @Validator.MinLength(4)
+  /// @Validator.IsNotEmpty()
+  /// @Validator.IsString()
+  userName  String   @db.VarChar(20)
   /// @HideField({ match: 'UserUpdateInput', output: true })
+  /// @Validator.MaxLength(16)
+  /// @Validator.MinLength(8)
+  /// @Validator.IsNotEmpty()
+  /// @Validator.IsString()
   password  String   @db.VarChar(60)
   /// @HideField({ match: 'User@(Update|Create)Input'})
   createdAt DateTime @default(now())

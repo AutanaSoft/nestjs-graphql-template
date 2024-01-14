@@ -1,5 +1,6 @@
 # compiled output
-/src/graphql/generated
+/src/core/graphql/@generated
+/src/core/graphql/generated
 /dist
 /node_modules
 .tmp
