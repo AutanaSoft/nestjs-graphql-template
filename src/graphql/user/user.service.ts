@@ -1,6 +1,12 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { Prisma, UserModel } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
+import {
+  CreateOneUserModelArgs,
+  FindUniqueUserModelArgs,
+  UpdateOneUserModelArgs,
+  UserModel,
+} from '../../core/graphql/generated/user-model';
 import { hashField } from '../../core/utils/hashField';
 import { PrismaService } from '../../prisma/prisma.service';
 
@@ -15,7 +21,7 @@ export class UserService {
     this.repository = this.prisma.userModel;
   }
 
-  async create(params: Prisma.UserModelCreateArgs): Promise<UserModel> {
+  async create(params: CreateOneUserModelArgs): Promise<UserModel> {
     try {
       if (params.data.password) {
         params.data.password = hashField(params.data.password);
@@ -26,7 +32,7 @@ export class UserService {
     }
   }
 
-  async find(params: Prisma.UserModelFindUniqueArgs): Promise<UserModel | null> {
+  async find(params: FindUniqueUserModelArgs): Promise<UserModel | null> {
     try {
       return await this.repository.findUnique(params);
     } catch (error) {
@@ -34,7 +40,7 @@ export class UserService {
     }
   }
 
-  async update(params: Prisma.UserModelUpdateArgs): Promise<UserModel> {
+  async update(params: UpdateOneUserModelArgs): Promise<UserModel> {
     try {
       this.logger.log(params.data.userName);
       return await this.repository.update(params);

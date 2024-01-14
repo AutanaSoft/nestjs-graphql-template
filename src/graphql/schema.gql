@@ -167,11 +167,42 @@ type UserModel {
   userName: String
 }
 
+type UserModelCountAggregate {
+  _all: Int!
+  createdAt: Int!
+  email: Int!
+  id: Int!
+  roles: Int!
+  status: Int!
+  updatedAt: Int!
+  userName: Int!
+}
+
 input UserModelCreateInput {
   email: String!
   password: String!
   roles: Roles
   status: Status
+  userName: String
+}
+
+type UserModelMaxAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  roles: Roles
+  status: Status
+  updatedAt: DateTime
+  userName: String
+}
+
+type UserModelMinAggregate {
+  createdAt: DateTime
+  email: String
+  id: String
+  roles: Roles
+  status: Status
+  updatedAt: DateTime
   userName: String
 }
 

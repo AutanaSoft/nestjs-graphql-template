@@ -15,7 +15,7 @@ generator nestgraphql {
   output                                = "../src/core/graphql/generated"
   noAtomicOperations                    = true
   combineScalarFilters                  = false
-  reExport                              = None
+  reExport                              = Directories
   emitSingle                            = false
   emitCompiled                          = false
   purgeOutput                           = true
