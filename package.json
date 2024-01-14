@@ -26,7 +26,7 @@
     "build": "pnpm build:clean && pnpm prisma generate && nest build --path tsconfig.prod.json",
     "start": "node dist/main.js",
     "start:dev": "tsnd --inspect=0.0.0.0:9229 --respawn src/main.ts",
-    "test": "rimraf coverage .nyc_output && concurrently 'npm:test:unit' 'npm:test:e2e' && npm run coverage:merge",
+    "test": "rimraf coverage .nyc_output && concurrently 'pnpm:test:unit' 'pnpm:test:e2e' && pnpm coverage:merge",
     "test:unit": "jest tests/src --coverageDirectory coverage/unit",
     "test:e2e": "jest tests/e2e --coverageDirectory coverage/e2e",
     "coverage:merge": "ts-node scripts/merge-coverage.ts",
