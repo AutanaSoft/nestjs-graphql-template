@@ -21,8 +21,8 @@ describe('Main', () => {
     await app.close();
   });
 
-  it('/GET main', () => {
-    return request(app.getHttpServer()).get('/main').expect(200).expect({ status: 'ok' });
+  it('/GET /', () => {
+    return request(app.getHttpServer()).get('/').expect(200).expect({ status: 'ok' });
   });
 
   it('/POST welcome', () => {

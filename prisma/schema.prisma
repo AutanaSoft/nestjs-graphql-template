@@ -53,6 +53,12 @@ generator nestgraphql {
   decorate_5_name                       = IsOptional
   decorate_5_from                       = "class-validator"
   decorate_5_arguments                  = "[]"
+  // Update Optional validator
+  decorate_6_type                       = "*@(Create|Update)Input"
+  decorate_6_field                      = "email"
+  decorate_6_from                       = "class-transformer"
+  decorate_6_arguments                  = "['({ value }) => value.trim().toLowerCase()']"
+  decorate_6_name                       = Transform
 }
 
 enum Status {
@@ -78,20 +84,20 @@ model UserModel {
   status    Status   @default(REGISTERED)
   /// @Validator.IsEnum(Roles)
   roles     Roles    @default(CUSTOMER)
-  /// @Validator.MaxLength(60)
-  /// @Validator.MinLength(8)
   /// @Validator.IsEmail()
+  /// @Validator.MinLength(8)
+  /// @Validator.MaxLength(60)
   email     String   @unique @db.VarChar(60)
-  /// @Validator.MaxLength(20)
-  /// @Validator.MinLength(4)
   /// @Validator.IsNotEmpty()
   /// @Validator.IsString()
+  /// @Validator.MinLength(4)
+  /// @Validator.MaxLength(20)
   userName  String?  @map("user_name") @db.VarChar(20)
   /// @HideField({ output: true })
-  /// @Validator.MaxLength(16)
-  /// @Validator.MinLength(8)
   /// @Validator.IsNotEmpty()
   /// @Validator.IsString()
+  /// @Validator.MinLength(8)
+  /// @Validator.MaxLength(16)
   password  String   @db.VarChar(60)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()

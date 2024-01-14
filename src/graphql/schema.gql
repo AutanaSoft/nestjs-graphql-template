@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AccessToken {
+  """Fecha de creación del token"""
+  createdAt: DateTime!
+
+  """Fecha de expiración del token"""
+  expiresAt: DateTime!
+
+  """Token de acceso"""
+  token: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -34,6 +45,7 @@ input EnumStatusFilter {
 
 type Mutation {
   createUser(data: UserModelCreateInput!): UserModel!
+  signUp(email: String!, password: String!, userName: String): AccessToken!
   updateUser(data: UserModelUpdateInput!, where: UserModelWhereUniqueInput!): UserModel!
 }
 
@@ -103,6 +115,7 @@ input NestedUuidFilter {
 
 type Query {
   getHello(name: String!): String!
+  signIn(email: String!, password: String!): AccessToken!
 }
 
 enum QueryMode {

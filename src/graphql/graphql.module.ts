@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 
+import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { WelcomeModule } from './welcome/welcome.module';
 
@@ -28,6 +29,7 @@ import { WelcomeModule } from './welcome/welcome.module';
     }),
     WelcomeModule,
     UserModule,
+    AuthModule,
   ],
   providers: [],
   exports: [],

@@ -53,7 +53,7 @@ export class ErrorService {
       });
     }
 
-    this.logger.log(error.name);
+    this.logger.log(error.message);
 
     return new GraphQLError(error.message, {
       extensions: {

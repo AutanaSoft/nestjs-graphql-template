@@ -1,12 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Prisma, UserModel } from '@prisma/client';
 import { GraphQLError } from 'graphql';
 
 import {
   CreateOneUserModelArgs,
   FindUniqueUserModelArgs,
   UpdateOneUserModelArgs,
-  UserModel,
 } from '../../core/graphql/generated/user-model';
 import { hashField } from '../../core/utils/hashField';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -29,9 +28,34 @@ export class UserService {
 
   async create(params: CreateOneUserModelArgs): Promise<UserModel | GraphQLError> {
     try {
-      if (params.data.password) {
-        params.data.password = hashField(params.data.password);
+      const exist = await this.repository.findFirst({
+        where: {
+          OR: [
+            {
+              email: {
+                equals: params.data.email,
+                mode: 'insensitive',
+              },
+            },
+            {
+              userName: {
+                equals: params.data.userName,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        },
+      });
+
+      if (exist) {
+        throw new GraphQLError('El email o usuario ya existe', {
+          extensions: {
+            code: 'EMAIL_OR_USERNAME_ALREADY_EXISTS',
+            status: HttpStatus.CONFLICT,
+          },
+        });
       }
+      params.data.password = hashField(params.data.password);
       return await this.repository.create(params);
     } catch (error) {
       return this.errorService.set(error);
@@ -48,6 +72,9 @@ export class UserService {
 
   async update(params: UpdateOneUserModelArgs): Promise<UserModel | GraphQLError> {
     try {
+      if (params.data.password) {
+        params.data.password = hashField(params.data.password);
+      }
       const update = await this.repository.update(params);
       await this.pubSub.publish(PUB_SUB_USER.UPDATES, { [PUB_SUB_USER.UPDATES]: update });
       return update;

@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, Logger } from '@nestjs/common';
 
-@Controller('main')
+@Controller('/')
 export class MainController {
   private readonly logger = new Logger(MainController.name);
 
