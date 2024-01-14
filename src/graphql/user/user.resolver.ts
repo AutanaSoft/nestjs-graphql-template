@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Subscription } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
 
 import {
@@ -6,11 +6,16 @@ import {
   UpdateOneUserModelArgs,
   UserModel,
 } from '../../core/graphql/generated/user-model';
+import { PubSubService } from '../pub-sub.service';
+import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user';
 import { UserService } from './user.service';
 
 @Resolver(UserModel)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly pubSub: PubSubService,
+  ) {}
 
   @Mutation(() => UserModel)
   async createUser(@Args() args: CreateOneUserModelArgs): Promise<UserModel | GraphQLError> {
@@ -20,5 +25,13 @@ export class UserResolver {
   @Mutation(() => UserModel)
   async updateUser(@Args() args: UpdateOneUserModelArgs): Promise<UserModel | GraphQLError> {
     return this.userService.update(args);
+  }
+
+  @Subscription(() => UserModel, {
+    nullable: true,
+    resolve: (payload: { [key: string]: UserModel }): UserModel => payload[PUB_SUB_USER.UPDATES],
+  })
+  MeUpdates(): GraphQLError | AsyncIterator<unknown, unknown, undefined> {
+    return this.pubSub.asyncIterator(PUB_SUB_USER.UPDATES);
   }
 }

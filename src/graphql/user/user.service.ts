@@ -11,6 +11,8 @@ import {
 import { hashField } from '../../core/utils/hashField';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ErrorService } from '../error.service';
+import { PubSubService } from '../pub-sub.service';
+import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user';
 
 @Injectable()
 export class UserService {
@@ -20,6 +22,7 @@ export class UserService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly errorService: ErrorService,
+    private readonly pubSub: PubSubService,
   ) {
     this.repository = this.prisma.userModel;
   }
@@ -45,8 +48,9 @@ export class UserService {
 
   async update(params: UpdateOneUserModelArgs): Promise<UserModel | GraphQLError> {
     try {
-      this.logger.log(params.data.userName);
-      return await this.repository.update(params);
+      const update = await this.repository.update(params);
+      await this.pubSub.publish(PUB_SUB_USER.UPDATES, { [PUB_SUB_USER.UPDATES]: update });
+      return update;
     } catch (error) {
       return this.errorService.set(error);
     }

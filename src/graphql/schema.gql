@@ -157,6 +157,10 @@ input StringNullableFilter {
   startsWith: String
 }
 
+type Subscription {
+  MeUpdates: UserModel
+}
+
 type UserModel {
   createdAt: DateTime!
   email: String!

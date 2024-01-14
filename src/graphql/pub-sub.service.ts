@@ -14,7 +14,7 @@ export class PubSubService {
 
   async publish(
     triggerName: string,
-    payload: never,
+    payload: Record<string, unknown>,
   ): Promise<void | GraphQLError | AsyncIterator<never>> {
     try {
       await this.pubSub.publish(triggerName, payload);
