@@ -18,19 +18,11 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
-input EnumRolesFieldUpdateOperationsInput {
-  set: Roles
-}
-
 input EnumRolesFilter {
   equals: Roles
   in: [Roles!]
   not: NestedEnumRolesFilter
   notIn: [Roles!]
-}
-
-input EnumStatusFieldUpdateOperationsInput {
-  set: Status
 }
 
 input EnumStatusFilter {
@@ -121,10 +113,6 @@ enum Status {
   REGISTERED
 }
 
-input StringFieldUpdateOperationsInput {
-  set: String
-}
-
 input StringFilter {
   contains: String
   endsWith: String
@@ -190,10 +178,10 @@ type UserMinAggregate {
 }
 
 input UserUpdateInput {
-  email: StringFieldUpdateOperationsInput
-  roles: EnumRolesFieldUpdateOperationsInput
-  status: EnumStatusFieldUpdateOperationsInput
-  userName: StringFieldUpdateOperationsInput
+  email: String
+  roles: Roles
+  status: Status
+  userName: String
 }
 
 input UserWhereInput {
