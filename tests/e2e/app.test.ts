@@ -33,6 +33,7 @@ describe('Main', () => {
         variables: { name: 'Leandro Cardenas' },
         operationName: 'Query',
       })
-      .expect(200);
+      .expect(200)
+      .expect({ data: { getHello: 'Hello Leandro Cardenas!' } });
   });
 });
