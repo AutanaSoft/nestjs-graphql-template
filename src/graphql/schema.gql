@@ -33,8 +33,8 @@ input EnumStatusFilter {
 }
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  createUser(data: UserModelCreateInput!): UserModel!
+  updateUser(data: UserModelUpdateInput!, where: UserModelWhereUniqueInput!): UserModel!
 }
 
 input NestedDateTimeFilter {
@@ -72,6 +72,20 @@ input NestedStringFilter {
   lt: String
   lte: String
   not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input NestedStringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -128,66 +142,51 @@ input StringFilter {
   startsWith: String
 }
 
-type User {
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type UserModel {
   createdAt: DateTime!
   email: String!
   id: ID!
   roles: Roles!
   status: Status!
   updatedAt: DateTime!
-  userName: String!
+  userName: String
 }
 
-type UserCountAggregate {
-  _all: Int!
-  createdAt: Int!
-  email: Int!
-  id: Int!
-  roles: Int!
-  status: Int!
-  updatedAt: Int!
-  userName: Int!
-}
-
-input UserCreateInput {
+input UserModelCreateInput {
   email: String!
   password: String!
   roles: Roles
   status: Status
-  userName: String!
-}
-
-type UserMaxAggregate {
-  createdAt: DateTime
-  email: String
-  id: String
-  roles: Roles
-  status: Status
-  updatedAt: DateTime
   userName: String
 }
 
-type UserMinAggregate {
-  createdAt: DateTime
+input UserModelUpdateInput {
   email: String
-  id: String
-  roles: Roles
-  status: Status
-  updatedAt: DateTime
-  userName: String
-}
-
-input UserUpdateInput {
-  email: String
+  password: String
   roles: Roles
   status: Status
   userName: String
 }
 
-input UserWhereInput {
-  AND: [UserWhereInput!]
-  NOT: [UserWhereInput!]
-  OR: [UserWhereInput!]
+input UserModelWhereInput {
+  AND: [UserModelWhereInput!]
+  NOT: [UserModelWhereInput!]
+  OR: [UserModelWhereInput!]
   createdAt: DateTimeFilter
   email: StringFilter
   id: UuidFilter
@@ -195,13 +194,13 @@ input UserWhereInput {
   roles: EnumRolesFilter
   status: EnumStatusFilter
   updatedAt: DateTimeFilter
-  userName: StringFilter
+  userName: StringNullableFilter
 }
 
-input UserWhereUniqueInput {
-  AND: [UserWhereInput!]
-  NOT: [UserWhereInput!]
-  OR: [UserWhereInput!]
+input UserModelWhereUniqueInput {
+  AND: [UserModelWhereInput!]
+  NOT: [UserModelWhereInput!]
+  OR: [UserModelWhereInput!]
   createdAt: DateTimeFilter
   email: String
   id: String
@@ -209,7 +208,7 @@ input UserWhereUniqueInput {
   roles: EnumRolesFilter
   status: EnumStatusFilter
   updatedAt: DateTimeFilter
-  userName: StringFilter
+  userName: StringNullableFilter
 }
 
 input UuidFilter {

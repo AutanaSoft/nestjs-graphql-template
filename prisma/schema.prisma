@@ -11,19 +11,48 @@ datasource db {
 }
 
 generator nestgraphql {
-  provider               = "prisma-nestjs-graphql"
-  output                 = "../src/core/graphql/generated"
-  reExport               = Directories
-  noAtomicOperations     = true
+  provider                              = "prisma-nestjs-graphql"
+  output                                = "../src/core/graphql/generated"
+  noAtomicOperations                    = true
+  combineScalarFilters                  = false
+  reExport                              = None
+  emitSingle                            = false
+  emitCompiled                          = false
+  purgeOutput                           = true
+  requireSingleFieldsInWhereUniqueInput = false
   // field validator
-  fields_Validator_from  = "class-validator"
-  fields_Validator_input = true
+  fields_Validator_from                 = "class-validator"
+  fields_Validator_input                = true
   // Args where|data nested validator
-  decorate_1_type        = "*Args"
-  decorate_1_field       = "@(data|where)"
-  decorate_1_name        = ValidateNested
-  decorate_1_from        = "class-validator"
-  decorate_1_arguments   = "[]"
+  decorate_1_type                       = "*Args"
+  decorate_1_field                      = "@(data|where)"
+  decorate_1_name                       = ValidateNested
+  decorate_1_from                       = "class-validator"
+  decorate_1_arguments                  = "[]"
+  // Create Hide fields
+  decorate_2_type                       = "*CreateInput"
+  decorate_2_field                      = "@(id|createdAt|updatedAt)"
+  decorate_2_name                       = HideField
+  decorate_2_from                       = "@nestjs/graphql"
+  decorate_2_arguments                  = "[]"
+  // Create Hide fields
+  decorate_3_type                       = "*UpdateInput"
+  decorate_3_field                      = "@(id|createdAt|updatedAt)"
+  decorate_3_name                       = HideField
+  decorate_3_from                       = "@nestjs/graphql"
+  decorate_3_arguments                  = "[]"
+  // Create Optional validator
+  decorate_4_type                       = "*CreateInput"
+  decorate_4_field                      = "@(status|roles|userName)"
+  decorate_4_name                       = IsOptional
+  decorate_4_from                       = "class-validator"
+  decorate_4_arguments                  = "[]"
+  // Update Optional validator
+  decorate_5_type                       = "*UpdateInput"
+  decorate_5_field                      = "!(id|createdAt|updatedAt)"
+  decorate_5_name                       = IsOptional
+  decorate_5_from                       = "class-validator"
+  decorate_5_arguments                  = "[]"
 }
 
 enum Status {
@@ -43,10 +72,11 @@ enum Roles {
   ADMIN
 }
 
-model User {
-  /// @HideField({ match: 'User@(Update|Create)Input'})
+model UserModel {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// @Validator.IsEnum(Status)
   status    Status   @default(REGISTERED)
+  /// @Validator.IsEnum(Roles)
   roles     Roles    @default(CUSTOMER)
   /// @Validator.MaxLength(60)
   /// @Validator.MinLength(8)
@@ -56,17 +86,15 @@ model User {
   /// @Validator.MinLength(4)
   /// @Validator.IsNotEmpty()
   /// @Validator.IsString()
-  userName  String   @db.VarChar(20)
-  /// @HideField({ match: 'UserUpdateInput', output: true })
+  userName  String?  @map("user_name") @db.VarChar(20)
+  /// @HideField({ output: true })
   /// @Validator.MaxLength(16)
   /// @Validator.MinLength(8)
   /// @Validator.IsNotEmpty()
   /// @Validator.IsString()
   password  String   @db.VarChar(60)
-  /// @HideField({ match: 'User@(Update|Create)Input'})
-  createdAt DateTime @default(now())
-  /// @HideField({ match: 'User@(Update|Create)Input'})
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("users")
 }

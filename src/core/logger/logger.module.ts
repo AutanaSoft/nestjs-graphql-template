@@ -2,7 +2,7 @@ import { Global, Logger, Module, Provider } from '@nestjs/common';
 import { LogLevel } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 
-const loggerProvider: Provider = {
+const LoggerProvider: Provider = {
   provide: Logger,
   useFactory: (configService: ConfigService) => {
     const level = configService.get<LogLevel>('LOGGER_LEVEL', 'log');
@@ -15,7 +15,7 @@ const loggerProvider: Provider = {
 
 @Global()
 @Module({
-  providers: [loggerProvider],
-  exports: [loggerProvider],
+  providers: [LoggerProvider],
+  exports: [LoggerProvider],
 })
 export class LoggerModule {}
