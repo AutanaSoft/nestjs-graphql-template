@@ -16,8 +16,9 @@ async function bootstrap() {
     }),
   );
 
-  const logger = app.get(Logger);
   const configService = app.get(ConfigService);
+
+  const logger = new Logger('Main', { timestamp: false });
 
   const port = configService.get<string>('APP_PORT', '3000');
   await app.listen(port, '127.0.0.1', (err, address) => {

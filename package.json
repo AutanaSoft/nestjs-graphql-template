@@ -23,10 +23,9 @@
   },
   "main": "dist/main.js",
   "scripts": {
-    "dev": "nest start --watch",
-    "build": "pnpm build:clean && pnpm prisma generate && pnpm lint:fix && nest build",
-    "start": "node dist/main.js",
     "start:dev": "tsnd --inspect=0.0.0.0:9229 --respawn src/main.ts",
+    "build": "pnpm build:clean && pnpm prisma generate && pnpm lint:fix && nest build --path tsconfig.prod.json",
+    "start": "node dist/main.js",
     "test": "rimraf coverage .nyc_output && concurrently 'pnpm:test:unit' 'pnpm:test:e2e' && pnpm coverage:merge",
     "test:unit": "jest tests/src --coverageDirectory coverage/unit",
     "test:e2e": "jest tests/e2e --coverageDirectory coverage/e2e",
@@ -50,6 +49,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "graphql": "^16.8.1",
+    "graphql-subscriptions": "^2.0.0",
     "prisma": "^5.8.0",
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1"

@@ -1,8 +1,10 @@
-import { Controller, Get, HttpCode, Inject, Logger } from '@nestjs/common';
+import { Controller, Get, HttpCode, Logger } from '@nestjs/common';
 
 @Controller('main')
 export class MainController {
-  constructor(@Inject(Logger) private readonly logger: Logger) {}
+  private readonly logger = new Logger(MainController.name);
+
+  constructor() {}
 
   @Get()
   @HttpCode(200)
