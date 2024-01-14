@@ -12,7 +12,7 @@ datasource db {
 
 generator nestgraphql {
   provider               = "prisma-nestjs-graphql"
-  output                 = "../src/core/graphql/@generated"
+  output                 = "../src/core/graphql/generated"
   reExport               = Directories
   noAtomicOperations     = true
   // field validator
