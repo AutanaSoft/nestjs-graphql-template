@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
 
-import { verifyHashedField } from '../../../core/utils/hashField';
 import { ErrorService } from '../../../graphql/error.service';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { verifyHashedField } from '../../shared/utils/hashField';
 import { SignInInput } from '../domain/dto/sign-in-input.dto';
 import { SignUpInput } from '../domain/dto/sign-up-input.dto';
 import { AccessToken } from '../domain/dto/token-payload.dto';

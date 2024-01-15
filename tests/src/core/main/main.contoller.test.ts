@@ -1,4 +1,4 @@
-import { MainController } from '../../../../src/core/main/main.controller';
+import { MainController } from '../../../../src/main/main.controller';
 
 describe('HealthController', () => {
   let mainController: MainController;

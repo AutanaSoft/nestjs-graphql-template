@@ -5,7 +5,7 @@ import {
   CreateOneUserModelArgs,
   UpdateOneUserModelArgs,
   UserModel,
-} from '../../core/graphql/generated/user-model';
+} from '../../core/generated/prisma/graphql/user-model';
 import { PubSubService } from '../pub-sub.service';
 import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user';
 import { UserService } from './user.service';

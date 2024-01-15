@@ -8,7 +8,7 @@ const config: Config = {
   cacheDirectory: '.tmp/jestCache',
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts'],
-  coveragePathIgnorePatterns: ['src/core/graphql/generated/'],
+  coveragePathIgnorePatterns: ['src/core/generated/'],
   setupFiles: ['<rootDir>.jest/set-env-vars.ts'],
   clearMocks: true,
   coverageReporters: ['json', 'lcov', 'text'],

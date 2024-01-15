@@ -6,12 +6,12 @@ import {
   CreateOneUserModelArgs,
   FindUniqueUserModelArgs,
   UpdateOneUserModelArgs,
-} from '../../core/graphql/generated/user-model';
-import { hashField } from '../../core/utils/hashField';
+} from '../../core/generated/prisma/graphql/user-model';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ErrorService } from '../error.service';
 import { PubSubService } from '../pub-sub.service';
 import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user';
+import { hashField } from '../shared/utils/hashField';
 
 @Injectable()
 export class UserService {

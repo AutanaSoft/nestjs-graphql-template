@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { MainModule } from './core/main/main.module';
 import { GraphqlModule } from './graphql/graphql.module';
+import { MainModule } from './main/main.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
+      envFilePath: ['.env'],
       cache: true,
     }),
     MainModule,

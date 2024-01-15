@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
-import { UserModel } from '../../../core/graphql/generated/user-model';
+import { UserModel } from '../../../core/generated/prisma/graphql/user-model';
 import { AccessToken } from '../domain/dto/token-payload.dto';
 
 @Injectable()
