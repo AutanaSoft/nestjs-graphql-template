@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserModel } from '../../../core/graphql/generated/user-model';
-import { AccessToken } from '../dto/token-payload.dto';
+import { AccessToken } from '../domain/dto/token-payload.dto';
 
 @Injectable()
 export class TokenService {

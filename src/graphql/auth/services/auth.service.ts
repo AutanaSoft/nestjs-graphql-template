@@ -4,9 +4,9 @@ import { GraphQLError } from 'graphql';
 import { verifyHashedField } from '../../../core/utils/hashField';
 import { ErrorService } from '../../../graphql/error.service';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { SignInInput } from '../dto/sign-in-input.dto';
-import { SignUpInput } from '../dto/sign-up-input.dto';
-import { AccessToken } from '../dto/token-payload.dto';
+import { SignInInput } from '../domain/dto/sign-in-input.dto';
+import { SignUpInput } from '../domain/dto/sign-up-input.dto';
+import { AccessToken } from '../domain/dto/token-payload.dto';
 import { UserService } from './../../user/user.service';
 import { TokenService } from './token.service';
 

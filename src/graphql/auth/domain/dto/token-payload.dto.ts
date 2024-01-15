@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { Roles, Status } from '../../../core/graphql/generated/prisma';
+import { Roles, Status } from '../../../../core/graphql/generated/prisma';
 
 @ObjectType({ description: 'Payload of token ' })
 export class TokenPayload {
