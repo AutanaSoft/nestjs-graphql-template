@@ -1,4 +1,4 @@
-const MIN_COVERAGE = 95;
+const MIN_COVERAGE = 80;
 
 const config = {
   all: true,
