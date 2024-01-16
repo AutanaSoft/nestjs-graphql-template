@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
 
-import { GraphqlModule } from './graphql/graphql.module';
-import { MainModule } from './main/main.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { GraphqlModule } from './graphql/graphql.module'
+import { MainModule } from './main/main.module'
+import { PrismaModule } from './prisma/prisma.module'
 
 @Module({
   imports: [

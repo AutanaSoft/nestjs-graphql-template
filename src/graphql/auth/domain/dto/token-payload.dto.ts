@@ -1,27 +1,27 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql'
 
-import { Roles, Status } from '../../../../core/generated/prisma/graphql/prisma';
+import { Roles, Status } from '../../../../core/generated/prisma/graphql/prisma'
 
 @ObjectType({ description: 'Payload of token' })
 export class TokenPayload {
   @Field(() => String, { nullable: false })
-  id: string;
+  id: string
 
   @Field(() => Status, { nullable: false })
-  status: Status;
+  status: Status
 
   @Field(() => Roles, { nullable: false })
-  roles: Roles;
+  roles: Roles
 
   @Field(() => String, { nullable: false })
-  email: string;
+  email: string
 
   @Field(() => String, { nullable: false })
-  userName: string;
+  userName: string
 
   @Field(() => Number, { nullable: false })
-  iat?: number;
+  iat?: number
 
   @Field(() => Number, { nullable: false })
-  exp?: number;
+  exp?: number
 }

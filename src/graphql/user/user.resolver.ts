@@ -1,15 +1,15 @@
-import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
-import { GraphQLError } from 'graphql';
+import { UseGuards } from '@nestjs/common'
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
+import { GraphQLError } from 'graphql'
 
-import { UpdateOneUserModelArgs, UserModel } from '../../core/generated/prisma/graphql/user-model';
-import { JwtAuthGuard } from '../auth/infrastructure/guard/jwt-auth.guard';
-import { PubSubService } from '../pub-sub.service';
-import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user';
-import { CurrentUser } from '../shared/infrastructure/decorators/get-user.decorator';
-import { CustomCreateOneUserModelArgs } from './domain/dto/custom-create-one-user-model.args';
-import { UserUpdatePasswordInput } from './domain/dto/user-update-password.input';
-import { UserService } from './user.service';
+import { UpdateOneUserModelArgs, UserModel } from '../../core/generated/prisma/graphql/user-model'
+import { JwtAuthGuard } from '../auth/infrastructure/guard/jwt-auth.guard'
+import { PubSubService } from '../pub-sub.service'
+import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user'
+import { CurrentUser } from '../shared/infrastructure/decorators/get-user.decorator'
+import { CustomCreateOneUserModelArgs } from './domain/dto/custom-create-one-user-model.args'
+import { UserUpdatePasswordInput } from './domain/dto/user-update-password.input'
+import { UserService } from './user.service'
 
 @UseGuards(JwtAuthGuard)
 @Resolver(UserModel)
@@ -26,7 +26,7 @@ export class UserResolver {
    */
   @Mutation(() => UserModel)
   async createUser(@Args() args: CustomCreateOneUserModelArgs): Promise<UserModel | GraphQLError> {
-    return this.userService.create(args);
+    return this.userService.create(args)
   }
 
   /**
@@ -36,7 +36,7 @@ export class UserResolver {
    */
   @Mutation(() => UserModel)
   async updateUser(@Args() args: UpdateOneUserModelArgs): Promise<UserModel | GraphQLError> {
-    return this.userService.update(args);
+    return this.userService.update(args)
   }
 
   /**
@@ -46,7 +46,7 @@ export class UserResolver {
    */
   @Query(() => UserModel)
   async me(@CurrentUser() user: UserModel): Promise<UserModel | GraphQLError> {
-    return this.userService.me(user);
+    return this.userService.me(user)
   }
 
   /**
@@ -60,7 +60,7 @@ export class UserResolver {
     @Args('data') data: UserUpdatePasswordInput,
     @CurrentUser() user: UserModel,
   ): Promise<UserModel | GraphQLError> {
-    return this.userService.updatePassword(user.id, data);
+    return this.userService.updatePassword(user.id, data)
   }
 
   /**
@@ -72,6 +72,6 @@ export class UserResolver {
     resolve: (payload: { [key: string]: UserModel }): UserModel => payload[PUB_SUB_USER.UPDATES],
   })
   async MeUpdates(): Promise<GraphQLError | AsyncIterator<unknown, unknown, undefined>> {
-    return this.pubSub.asyncIterator(PUB_SUB_USER.UPDATES);
+    return this.pubSub.asyncIterator(PUB_SUB_USER.UPDATES)
   }
 }

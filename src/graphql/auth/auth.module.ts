@@ -1,16 +1,16 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import * as fs from 'fs';
+import { Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { JwtModule } from '@nestjs/jwt'
+import { PassportModule } from '@nestjs/passport'
+import * as fs from 'fs'
 
-import { PrismaModule } from '../../prisma/prisma.module';
-import { ErrorService } from '../error.service';
-import { UserModule } from '../user/user.module';
-import { AuthResolver } from './auth.resolver';
-import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
-import { AuthService } from './services/auth.service';
-import { TokenService } from './services/token.service';
+import { PrismaModule } from '../../prisma/prisma.module'
+import { ErrorService } from '../error.service'
+import { UserModule } from '../user/user.module'
+import { AuthResolver } from './auth.resolver'
+import { JwtStrategy } from './infrastructure/strategies/jwt.strategy'
+import { AuthService } from './services/auth.service'
+import { TokenService } from './services/token.service'
 
 @Module({
   imports: [

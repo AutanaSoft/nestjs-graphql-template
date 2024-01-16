@@ -1,4 +1,4 @@
-import { compareSync, genSaltSync, hashSync } from 'bcrypt';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt'
 
 /**
  * Hashes a password using bcrypt.
@@ -6,9 +6,9 @@ import { compareSync, genSaltSync, hashSync } from 'bcrypt';
  * @returns The hashed password.
  */
 export const hashField = (password: string): string => {
-  const salt = genSaltSync(10);
-  return hashSync(password, salt);
-};
+  const salt = genSaltSync(10)
+  return hashSync(password, salt)
+}
 
 /**
  * Verifies if a given field matches a hashed value.
@@ -17,5 +17,5 @@ export const hashField = (password: string): string => {
  * @returns True if the field matches the hash, false otherwise.
  */
 export const verifyHashedField = (field: string, hash: string): boolean => {
-  return compareSync(field, hash);
-};
+  return compareSync(field, hash)
+}

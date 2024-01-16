@@ -1,10 +1,10 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { GraphQLError } from 'graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { GraphQLError } from 'graphql'
 
-import { AccessToken } from './domain/dto/access-token.dto ';
-import { SignInInput } from './domain/dto/sign-in-input.dto';
-import { SignUpInput } from './domain/dto/sign-up-input.dto';
-import { AuthService } from './services/auth.service';
+import { AccessToken } from './domain/dto/access-token.dto '
+import { SignInInput } from './domain/dto/sign-in-input.dto'
+import { SignUpInput } from './domain/dto/sign-up-input.dto'
+import { AuthService } from './services/auth.service'
 
 @Resolver(AccessToken)
 export class AuthResolver {
@@ -17,7 +17,7 @@ export class AuthResolver {
    */
   @Query(() => AccessToken)
   async signIn(@Args() input: SignInInput): Promise<AccessToken | GraphQLError> {
-    return this.authService.signIn(input);
+    return this.authService.signIn(input)
   }
 
   @Mutation(() => AccessToken)
@@ -27,6 +27,6 @@ export class AuthResolver {
    * @returns A promise that resolves to an AccessToken or a GraphQLError.
    */
   async signUp(@Args() input: SignUpInput): Promise<AccessToken | GraphQLError> {
-    return this.authService.signUp(input);
+    return this.authService.signUp(input)
   }
 }

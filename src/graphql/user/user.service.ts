@@ -1,30 +1,30 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { Prisma, UserModel } from '@prisma/client';
-import { GraphQLError } from 'graphql';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common'
+import { Prisma, UserModel } from '@prisma/client'
+import { GraphQLError } from 'graphql'
 
 import {
   FindUniqueUserModelArgs,
   UpdateOneUserModelArgs,
-} from '../../core/generated/prisma/graphql/user-model';
-import { PrismaService } from '../../prisma/prisma.service';
-import { ErrorService } from '../error.service';
-import { PubSubService } from '../pub-sub.service';
-import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user';
-import { hashField } from '../shared/utils/hashField';
-import { CustomCreateOneUserModelArgs } from './domain/dto/custom-create-one-user-model.args';
-import { UserUpdatePasswordInput } from './domain/dto/user-update-password.input';
+} from '../../core/generated/prisma/graphql/user-model'
+import { PrismaService } from '../../prisma/prisma.service'
+import { ErrorService } from '../error.service'
+import { PubSubService } from '../pub-sub.service'
+import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user'
+import { hashField } from '../shared/utils/hashField'
+import { CustomCreateOneUserModelArgs } from './domain/dto/custom-create-one-user-model.args'
+import { UserUpdatePasswordInput } from './domain/dto/user-update-password.input'
 
 @Injectable()
 export class UserService {
-  private readonly logger = new Logger(UserService.name);
-  private readonly repository: Prisma.UserModelDelegate;
+  private readonly logger = new Logger(UserService.name)
+  private readonly repository: Prisma.UserModelDelegate
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly errorService: ErrorService,
     private readonly pubSub: PubSubService,
   ) {
-    this.repository = this.prisma.userModel;
+    this.repository = this.prisma.userModel
   }
 
   /**
@@ -51,7 +51,7 @@ export class UserService {
             },
           ],
         },
-      });
+      })
 
       if (params.data.password !== params.data.confirmPassword) {
         throw new GraphQLError('password and confirmPassword are not equal', {
@@ -59,11 +59,11 @@ export class UserService {
             code: 'PASSWORD_NOT_EQUAL',
             Status: HttpStatus.CONFLICT,
           },
-        });
+        })
       }
 
       // delete params.data.confirmPassword;
-      delete params.data.confirmPassword;
+      delete params.data.confirmPassword
 
       if (exist) {
         throw new GraphQLError('email or username already exists', {
@@ -71,12 +71,12 @@ export class UserService {
             code: 'EMAIL_OR_USERNAME_ALREADY_EXISTS',
             status: HttpStatus.CONFLICT,
           },
-        });
+        })
       }
-      params.data.password = hashField(params.data.password);
-      return await this.repository.create(params);
+      params.data.password = hashField(params.data.password)
+      return await this.repository.create(params)
     } catch (error) {
-      return this.errorService.set(error);
+      return this.errorService.set(error)
     }
   }
 
@@ -87,9 +87,9 @@ export class UserService {
    */
   async find(params: FindUniqueUserModelArgs): Promise<UserModel | GraphQLError> {
     try {
-      return await this.repository.findUnique(params);
+      return await this.repository.findUnique(params)
     } catch (error) {
-      return this.errorService.set(error);
+      return this.errorService.set(error)
     }
   }
 
@@ -103,13 +103,13 @@ export class UserService {
   async update(params: UpdateOneUserModelArgs): Promise<UserModel | GraphQLError> {
     try {
       if (params.data.password) {
-        params.data.password = hashField(params.data.password);
+        params.data.password = hashField(params.data.password)
       }
-      const update = await this.repository.update(params);
-      await this.pubSub.publish(PUB_SUB_USER.UPDATES, { [PUB_SUB_USER.UPDATES]: update });
-      return update;
+      const update = await this.repository.update(params)
+      await this.pubSub.publish(PUB_SUB_USER.UPDATES, { [PUB_SUB_USER.UPDATES]: update })
+      return update
     } catch (error) {
-      return this.errorService.set(error);
+      return this.errorService.set(error)
     }
   }
 
@@ -124,12 +124,12 @@ export class UserService {
     params: UserUpdatePasswordInput,
   ): Promise<UserModel | GraphQLError> {
     try {
-      const { oldPassword, newPassword } = params;
+      const { oldPassword, newPassword } = params
       const user = await this.repository.findUnique({
         where: {
           id,
         },
-      });
+      })
 
       if (!user) {
         throw new GraphQLError('user not found', {
@@ -137,7 +137,7 @@ export class UserService {
             code: 'USER_NOT_FOUND',
             status: HttpStatus.NOT_FOUND,
           },
-        });
+        })
       }
 
       if (user.password !== hashField(oldPassword)) {
@@ -146,7 +146,7 @@ export class UserService {
             code: 'OLD_PASSWORD_INCORRECT',
             status: HttpStatus.BAD_REQUEST,
           },
-        });
+        })
       }
 
       return await this.repository.update({
@@ -156,9 +156,9 @@ export class UserService {
         data: {
           password: hashField(newPassword),
         },
-      });
+      })
     } catch (error) {
-      return this.errorService.set(error);
+      return this.errorService.set(error)
     }
   }
 
@@ -169,14 +169,14 @@ export class UserService {
    */
   async me(user: UserModel): Promise<UserModel | GraphQLError> {
     try {
-      const { id } = user;
+      const { id } = user
       return await this.repository.findUnique({
         where: {
           id,
         },
-      });
+      })
     } catch (error) {
-      return this.errorService.set(error);
+      return this.errorService.set(error)
     }
   }
 }

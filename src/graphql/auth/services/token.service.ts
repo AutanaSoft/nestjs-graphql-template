@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { JwtService } from '@nestjs/jwt'
 
-import { UserModel } from '../../../core/generated/prisma/graphql/user-model';
-import { AccessToken } from '../domain/dto/access-token.dto ';
-import { TokenPayload } from '../domain/dto/token-payload.dto';
+import { UserModel } from '../../../core/generated/prisma/graphql/user-model'
+import { AccessToken } from '../domain/dto/access-token.dto '
+import { TokenPayload } from '../domain/dto/token-payload.dto'
 
 @Injectable()
 export class TokenService {
@@ -19,14 +19,14 @@ export class TokenService {
    * @returns The generated access token along with its creation and expiration dates.
    */
   public generateToken(payload: UserModel): AccessToken {
-    const { id, status, roles, email, userName } = payload;
+    const { id, status, roles, email, userName } = payload
     const token = this.jwtService.sign({
       id,
       status,
       roles,
       email,
       userName,
-    });
+    })
 
     return {
       token,
@@ -34,7 +34,7 @@ export class TokenService {
       expiresAt: new Date(
         Date.now() + this.config.get<number>('JWT_EXPIRES_IN_MINUTES') * 60 * 1000,
       ),
-    };
+    }
   }
 
   /**
@@ -43,6 +43,6 @@ export class TokenService {
    * @returns The decoded payload of the token.
    */
   public verifyToken(token: string): TokenPayload {
-    return this.jwtService.verify(token);
+    return this.jwtService.verify(token)
   }
 }

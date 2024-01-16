@@ -1,15 +1,15 @@
-import { MainController } from '../../../../src/main/main.controller';
+import { MainController } from '../../../../src/main/main.controller'
 
 describe('HealthController', () => {
-  let mainController: MainController;
+  let mainController: MainController
 
   beforeEach(() => {
-    mainController = new MainController();
-  });
+    mainController = new MainController()
+  })
 
   describe('run', () => {
     it('should return is main', () => {
-      expect(mainController.run()).toEqual({ status: 'ok' });
-    });
-  });
-});
+      expect(mainController.run()).toEqual({ status: 'ok' })
+    })
+  })
+})

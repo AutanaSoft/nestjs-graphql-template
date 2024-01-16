@@ -1,14 +1,14 @@
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { Module } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { GraphQLModule } from '@nestjs/graphql'
+import { join } from 'path'
 
-import { AuthModule } from './auth/auth.module';
-import { ErrorService } from './error.service';
-import { PubSubService } from './pub-sub.service';
-import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module'
+import { ErrorService } from './error.service'
+import { PubSubService } from './pub-sub.service'
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [

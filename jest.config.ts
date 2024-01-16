@@ -1,4 +1,4 @@
-import type { Config } from 'jest';
+import type { Config } from 'jest'
 
 const config: Config = {
   transform: {
@@ -12,6 +12,6 @@ const config: Config = {
   setupFiles: ['<rootDir>.jest/set-env-vars.ts'],
   clearMocks: true,
   coverageReporters: ['json', 'lcov', 'text'],
-};
+}
 
-export default config;
+export default config

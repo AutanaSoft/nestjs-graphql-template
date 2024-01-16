@@ -1,7 +1,7 @@
-import { ArgsType, Field } from '@nestjs/graphql';
-import { Transform } from 'class-transformer';
-import * as Validator from 'class-validator';
-import { IsOptional } from 'class-validator';
+import { ArgsType, Field } from '@nestjs/graphql'
+import { Transform } from 'class-transformer'
+import * as Validator from 'class-validator'
+import { IsOptional } from 'class-validator'
 
 @ArgsType()
 export class SignUpInput {
@@ -10,7 +10,7 @@ export class SignUpInput {
   @Validator.MinLength(8)
   @Validator.IsEmail()
   @Transform(({ value }) => value.toLowerCase())
-  email!: string;
+  email!: string
 
   @Field(() => String, { nullable: true })
   @Validator.MaxLength(20)
@@ -18,19 +18,19 @@ export class SignUpInput {
   @Validator.IsNotEmpty()
   @Validator.IsString()
   @IsOptional()
-  userName?: string;
+  userName?: string
 
   @Field(() => String, { nullable: false })
   @Validator.MaxLength(16)
   @Validator.MinLength(8)
   @Validator.IsNotEmpty()
   @Validator.IsString()
-  password!: string;
+  password!: string
 
   @Field(() => String, { nullable: false })
   @Validator.MaxLength(16)
   @Validator.MinLength(8)
   @Validator.IsNotEmpty()
   @Validator.IsString()
-  confirmPassword!: string;
+  confirmPassword!: string
 }

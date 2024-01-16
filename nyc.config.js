@@ -1,4 +1,4 @@
-const MIN_COVERAGE = 80;
+const MIN_COVERAGE = 80
 
 const config = {
   all: true,
@@ -9,6 +9,6 @@ const config = {
   functions: MIN_COVERAGE,
   statements: MIN_COVERAGE,
   reporter: ['lcov', 'json', 'text'],
-};
+}
 
-module.exports = config;
+module.exports = config

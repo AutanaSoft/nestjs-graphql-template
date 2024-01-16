@@ -1,14 +1,14 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common'
 import {
   PrismaClientKnownRequestError,
   PrismaClientUnknownRequestError,
   PrismaClientValidationError,
-} from '@prisma/client/runtime/library';
-import { GraphQLError } from 'graphql';
+} from '@prisma/client/runtime/library'
+import { GraphQLError } from 'graphql'
 
 @Injectable()
 export class ErrorService {
-  private readonly logger = new Logger(ErrorService.name);
+  private readonly logger = new Logger(ErrorService.name)
 
   constructor() {}
 
@@ -18,7 +18,7 @@ export class ErrorService {
    * @returns The converted GraphQLError object.
    */
   set(error: Error): GraphQLError {
-    if (error instanceof GraphQLError) return error;
+    if (error instanceof GraphQLError) return error
 
     if (error instanceof PrismaClientKnownRequestError) {
       return new GraphQLError(error.message.replace('Entity', ''), {
@@ -28,7 +28,7 @@ export class ErrorService {
           arguments: error.meta ?? error.name,
           errors: error,
         },
-      });
+      })
     }
 
     if (error instanceof PrismaClientUnknownRequestError) {
@@ -39,7 +39,7 @@ export class ErrorService {
           arguments: error.name,
           errors: error,
         },
-      });
+      })
     }
 
     if (error instanceof PrismaClientValidationError) {
@@ -50,10 +50,10 @@ export class ErrorService {
           arguments: error.name,
           errors: error,
         },
-      });
+      })
     }
 
-    this.logger.log(error.message);
+    this.logger.log(error.message)
 
     return new GraphQLError(error.message, {
       extensions: {
@@ -62,6 +62,6 @@ export class ErrorService {
         arguments: error.name,
         errors: error,
       },
-    });
+    })
   }
 }

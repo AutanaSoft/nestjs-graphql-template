@@ -1,27 +1,27 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { DefaultArgs } from '@prisma/client/runtime/library';
-import { GraphQLError } from 'graphql';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
+import { DefaultArgs } from '@prisma/client/runtime/library'
+import { GraphQLError } from 'graphql'
 
-import { ErrorService } from '../../../graphql/error.service';
-import { hashField, verifyHashedField } from '../../shared/utils/hashField';
-import { AccessToken } from '../domain/dto/access-token.dto ';
-import { SignInInput } from '../domain/dto/sign-in-input.dto';
-import { SignUpInput } from '../domain/dto/sign-up-input.dto';
-import { PrismaService } from './../../../prisma/prisma.service';
-import { TokenService } from './token.service';
+import { ErrorService } from '../../../graphql/error.service'
+import { hashField, verifyHashedField } from '../../shared/utils/hashField'
+import { AccessToken } from '../domain/dto/access-token.dto '
+import { SignInInput } from '../domain/dto/sign-in-input.dto'
+import { SignUpInput } from '../domain/dto/sign-up-input.dto'
+import { PrismaService } from './../../../prisma/prisma.service'
+import { TokenService } from './token.service'
 
 @Injectable()
 export class AuthService {
-  private readonly logger: Logger = new Logger(AuthService.name);
-  private readonly userRepository: Prisma.UserModelDelegate<DefaultArgs>;
+  private readonly logger: Logger = new Logger(AuthService.name)
+  private readonly userRepository: Prisma.UserModelDelegate<DefaultArgs>
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly tokenService: TokenService,
     private readonly errorService: ErrorService,
   ) {
-    this.userRepository = this.prisma.userModel;
+    this.userRepository = this.prisma.userModel
   }
 
   /**
@@ -31,7 +31,7 @@ export class AuthService {
    */
   async signIn(params: SignInInput): Promise<AccessToken | GraphQLError> {
     try {
-      const { email, password } = params;
+      const { email, password } = params
       const user = await this.userRepository.findFirst({
         where: {
           OR: [
@@ -49,7 +49,7 @@ export class AuthService {
             },
           ],
         },
-      });
+      })
 
       if (!user) {
         throw new GraphQLError('invalid Credentials', {
@@ -57,16 +57,16 @@ export class AuthService {
             code: 'INVALID_CREDENTIALS',
             Status: HttpStatus.UNAUTHORIZED,
           },
-        });
+        })
       }
 
       if (!verifyHashedField(password, user.password)) {
-        throw new GraphQLError('Invalid credentials');
+        throw new GraphQLError('Invalid credentials')
       }
 
-      return this.tokenService.generateToken(user);
+      return this.tokenService.generateToken(user)
     } catch (error) {
-      return this.errorService.set(error);
+      return this.errorService.set(error)
     }
   }
 
@@ -83,7 +83,7 @@ export class AuthService {
             code: 'PASSWORD_NOT_EQUAL',
             Status: HttpStatus.CONFLICT,
           },
-        });
+        })
       }
 
       const exist = await this.userRepository.findFirst({
@@ -103,7 +103,7 @@ export class AuthService {
             },
           ],
         },
-      });
+      })
 
       if (exist) {
         throw new GraphQLError('email or userName already exists', {
@@ -111,20 +111,20 @@ export class AuthService {
             code: 'USER_ALREADY_EXISTS',
             Status: HttpStatus.CONFLICT,
           },
-        });
+        })
       }
 
-      delete params.confirmPassword;
+      delete params.confirmPassword
       const user = await this.userRepository.create({
         data: {
           ...params,
           password: hashField(params.password),
         },
-      });
-      this.logger.log(`User created: ${user.id}`);
-      return this.tokenService.generateToken(user);
+      })
+      this.logger.log(`User created: ${user.id}`)
+      return this.tokenService.generateToken(user)
     } catch (error) {
-      return this.errorService.set(error);
+      return this.errorService.set(error)
     }
   }
 }
