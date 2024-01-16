@@ -8,7 +8,7 @@ import { PrismaModule } from '../../prisma/prisma.module'
 import { ErrorService } from '../error.service'
 import { UserModule } from '../user/user.module'
 import { AuthResolver } from './auth.resolver'
-import { JwtStrategy } from './infrastructure/strategies/jwt.strategy'
+import { JwtStrategy } from './infrastructure/strategies/jwt-headers.strategy'
 import { AuthService } from './services/auth.service'
 import { TokenService } from './services/token.service'
 

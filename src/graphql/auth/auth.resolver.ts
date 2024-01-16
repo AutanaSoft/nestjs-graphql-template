@@ -5,7 +5,6 @@ import { AccessToken } from './domain/dto/access-token.dto '
 import { SignInInput } from './domain/dto/sign-in-input.dto'
 import { SignUpInput } from './domain/dto/sign-up-input.dto'
 import { AuthService } from './services/auth.service'
-
 @Resolver(AccessToken)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
@@ -17,7 +16,7 @@ export class AuthResolver {
    */
   @Query(() => AccessToken)
   async signIn(@Args() input: SignInInput): Promise<AccessToken | GraphQLError> {
-    return this.authService.signIn(input)
+    return await this.authService.signIn(input)
   }
 
   @Mutation(() => AccessToken)

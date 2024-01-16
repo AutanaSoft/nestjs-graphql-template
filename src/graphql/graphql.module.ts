@@ -21,7 +21,7 @@ import { UserModule } from './user/user.module'
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
         sortSchema: true,
-        context: ({ req }) => ({ req }),
+        context: ({ req, res }) => ({ req, res }),
         subscriptions: {
           'graphql-ws': true,
         },

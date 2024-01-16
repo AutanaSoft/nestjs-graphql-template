@@ -63,7 +63,6 @@ export class AuthService {
       if (!verifyHashedField(password, user.password)) {
         throw new GraphQLError('Invalid credentials')
       }
-
       return this.tokenService.generateToken(user)
     } catch (error) {
       return this.errorService.set(error)
@@ -121,7 +120,6 @@ export class AuthService {
           password: hashField(params.password),
         },
       })
-      this.logger.log(`User created: ${user.id}`)
       return this.tokenService.generateToken(user)
     } catch (error) {
       return this.errorService.set(error)
