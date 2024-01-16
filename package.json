@@ -24,7 +24,7 @@
   "main": "dist/main.js",
   "scripts": {
     "start:dev": "tsnd --inspect=0.0.0.0:9229 --respawn src/main.ts",
-    "build": "pnpm build:clean && nest build --path tsconfig.prod.json",
+    "build": "pnpm build:clean && pnpm dlx prisma generate && pnpm lint:fix && nest build --path tsconfig.prod.json",
     "start": "node dist/main.js",
     "test": "rimraf coverage .nyc_output && concurrently 'pnpm:test:unit' 'pnpm:test:e2e' && pnpm coverage:merge",
     "test:unit": "jest tests/src --coverageDirectory coverage/unit",
