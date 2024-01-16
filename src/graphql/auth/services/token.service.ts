@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserModel } from '../../../core/generated/prisma/graphql/user-model';
-import { AccessToken } from '../domain/dto/token-payload.dto';
+import { AccessToken } from '../domain/dto/access-token.dto ';
+import { TokenPayload } from '../domain/dto/token-payload.dto';
 
 @Injectable()
 export class TokenService {
@@ -12,6 +13,11 @@ export class TokenService {
     private readonly config: ConfigService,
   ) {}
 
+  /**
+   * Generates an access token for the given user payload.
+   * @param payload - The user payload.
+   * @returns The generated access token along with its creation and expiration dates.
+   */
   public generateToken(payload: UserModel): AccessToken {
     const { id, status, roles, email, userName } = payload;
     const token = this.jwtService.sign({
@@ -31,7 +37,12 @@ export class TokenService {
     };
   }
 
-  public verifyToken(token: string) {
+  /**
+   * Verifies the given token and returns the decoded payload.
+   * @param token - The token to be verified.
+   * @returns The decoded payload of the token.
+   */
+  public verifyToken(token: string): TokenPayload {
     return this.jwtService.verify(token);
   }
 }

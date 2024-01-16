@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 
 import { Roles, Status } from '../../../../core/generated/prisma/graphql/prisma';
 
-@ObjectType({ description: 'Payload of token ' })
+@ObjectType({ description: 'Payload of token' })
 export class TokenPayload {
   @Field(() => String, { nullable: false })
   id: string;
@@ -24,19 +24,4 @@ export class TokenPayload {
 
   @Field(() => Number, { nullable: false })
   exp?: number;
-}
-
-@ObjectType()
-export class AccessToken {
-  @Field(() => String, { nullable: false, description: 'Token de acceso' })
-  token: string;
-
-  @Field(() => Date, {
-    nullable: false,
-    description: 'Fecha de expiración del token',
-  })
-  expiresAt: Date;
-
-  @Field(() => Date, { nullable: false, description: 'Fecha de creación del token' })
-  createdAt: Date;
 }

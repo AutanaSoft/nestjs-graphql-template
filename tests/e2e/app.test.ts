@@ -24,16 +24,4 @@ describe('Main', () => {
   it('/GET /', () => {
     return request(app.getHttpServer()).get('/').expect(200).expect({ status: 'ok' });
   });
-
-  it('/POST welcome', () => {
-    return request(app.getHttpServer())
-      .post('/graphql')
-      .send({
-        query: 'query Query($name: String!) {\r\n  getHello(name: $name)\r\n}',
-        variables: { name: 'Leandro Cardenas' },
-        operationName: 'Query',
-      })
-      .expect(200)
-      .expect({ data: { getHello: 'Hello Leandro Cardenas!' } });
-  });
 });

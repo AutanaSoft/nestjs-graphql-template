@@ -28,7 +28,7 @@ describe('Auth.Resolver', () => {
         .send({
           query:
             'query SignIn($email: String!, $password: String!) {\r\n  signIn(email: $email, password: $password) {\r\n    token\r\n    createdAt\r\n    expiresAt\r\n  }\r\n}',
-          variables: { email: 'speedleon@gmail.com', password: 'cardenas@1979' },
+          variables: { email: 'speedleon+01@gmail.com', password: 'cardenas@1979' },
           operationName: 'SignIn',
         })
         .expect(200)

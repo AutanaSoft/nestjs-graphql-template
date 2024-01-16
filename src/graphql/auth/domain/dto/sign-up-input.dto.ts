@@ -26,4 +26,11 @@ export class SignUpInput {
   @Validator.IsNotEmpty()
   @Validator.IsString()
   password!: string;
+
+  @Field(() => String, { nullable: false })
+  @Validator.MaxLength(16)
+  @Validator.MinLength(8)
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  confirmPassword!: string;
 }

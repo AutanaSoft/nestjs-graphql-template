@@ -3,14 +3,18 @@
 # ------------------------------------------------------
 
 type AccessToken {
-  """Fecha de creación del token"""
-  createdAt: DateTime!
-
-  """Fecha de expiración del token"""
-  expiresAt: DateTime!
-
-  """Token de acceso"""
+  createdAt: DateTime
+  expiresAt: DateTime
   token: String!
+}
+
+input CustomUserModelCreateInput {
+  confirmPassword: String!
+  email: String!
+  password: String!
+  roles: Roles
+  status: Status
+  userName: String
 }
 
 """
@@ -44,8 +48,9 @@ input EnumStatusFilter {
 }
 
 type Mutation {
-  createUser(data: UserModelCreateInput!): UserModel!
-  signUp(email: String!, password: String!, userName: String): AccessToken!
+  createUser(data: CustomUserModelCreateInput!): UserModel!
+  signUp(confirmPassword: String!, email: String!, password: String!, userName: String): AccessToken!
+  updatePassword(data: UserUpdatePasswordInput!): UserModel!
   updateUser(data: UserModelUpdateInput!, where: UserModelWhereUniqueInput!): UserModel!
 }
 
@@ -114,7 +119,7 @@ input NestedUuidFilter {
 }
 
 type Query {
-  getHello(name: String!): String!
+  me: UserModel!
   signIn(email: String!, password: String!): AccessToken!
 }
 
@@ -195,14 +200,6 @@ type UserModelCountAggregate {
   userName: Int!
 }
 
-input UserModelCreateInput {
-  email: String!
-  password: String!
-  roles: Roles
-  status: Status
-  userName: String
-}
-
 type UserModelMaxAggregate {
   createdAt: DateTime
   email: String
@@ -225,7 +222,6 @@ type UserModelMinAggregate {
 
 input UserModelUpdateInput {
   email: String
-  password: String
   roles: Roles
   status: Status
   userName: String
@@ -257,6 +253,12 @@ input UserModelWhereUniqueInput {
   status: EnumStatusFilter
   updatedAt: DateTimeFilter
   userName: StringNullableFilter
+}
+
+input UserUpdatePasswordInput {
+  confirmPassword: String!
+  newPassword: String!
+  oldPassword: String!
 }
 
 input UuidFilter {

@@ -7,7 +7,7 @@ import { AuthGuard } from '@nestjs/passport';
  * This guard is responsible for authenticating requests using JWT tokens.
  */
 @Injectable()
-export class GqlAuthGuard extends AuthGuard('jwt') {
+export class JwtAuthGuard extends AuthGuard('jwt') {
   getRequest(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context);
     return ctx.getContext().req;
