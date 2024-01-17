@@ -2,18 +2,26 @@ import fastifyCookie from '@fastify/cookie'
 import { HttpStatus, Logger, ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify'
 
 import { AppModule } from './app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter())
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+  )
   const configService = app.get(ConfigService)
 
   await app.register(fastifyCookie, {
     secret: configService.get<string>('APP_COOKIE_SECRET'),
     parseOptions: {},
   })
+
+  app.enableCors({ origin: true, credentials: true })
 
   app.useGlobalPipes(
     new ValidationPipe({

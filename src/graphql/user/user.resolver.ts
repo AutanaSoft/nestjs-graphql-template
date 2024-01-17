@@ -2,11 +2,14 @@ import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
 import { GraphQLError } from 'graphql'
 
-import { UpdateOneUserModelArgs, UserModel } from '../../core/generated/prisma/graphql/user-model'
+import {
+  UpdateOneUserModelArgs,
+  UserModel,
+} from '../../core/generated/prisma/graphql/user-model'
 import { JwtAuthGuard } from '../auth/infrastructure/guard/jwt-auth.guard'
 import { PubSubService } from '../pub-sub.service'
 import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user'
-import { CurrentUser } from '../shared/infrastructure/decorators/get-user.decorator'
+import { User } from '../shared/infrastructure/decorators/get-user.decorator'
 import { CustomCreateOneUserModelArgs } from './domain/dto/custom-create-one-user-model.args'
 import { UserUpdatePasswordInput } from './domain/dto/user-update-password.input'
 import { UserService } from './user.service'
@@ -25,7 +28,9 @@ export class UserResolver {
    * @returns A promise that resolves to the created user or a GraphQLError.
    */
   @Mutation(() => UserModel)
-  async createUser(@Args() args: CustomCreateOneUserModelArgs): Promise<UserModel | GraphQLError> {
+  async createUser(
+    @Args() args: CustomCreateOneUserModelArgs,
+  ): Promise<UserModel | GraphQLError> {
     return this.userService.create(args)
   }
 
@@ -35,7 +40,9 @@ export class UserResolver {
    * @returns A promise that resolves to the updated user or a GraphQLError.
    */
   @Mutation(() => UserModel)
-  async updateUser(@Args() args: UpdateOneUserModelArgs): Promise<UserModel | GraphQLError> {
+  async updateUser(
+    @Args() args: UpdateOneUserModelArgs,
+  ): Promise<UserModel | GraphQLError> {
     return this.userService.update(args)
   }
 
@@ -45,7 +52,7 @@ export class UserResolver {
    * @returns A Promise that resolves to the authenticated user or a GraphQLError.
    */
   @Query(() => UserModel)
-  async me(@CurrentUser() user: UserModel): Promise<UserModel | GraphQLError> {
+  async me(@User() user: UserModel): Promise<UserModel | GraphQLError> {
     return this.userService.me(user)
   }
 
@@ -58,7 +65,7 @@ export class UserResolver {
   @Mutation(() => UserModel)
   async updatePassword(
     @Args('data') data: UserUpdatePasswordInput,
-    @CurrentUser() user: UserModel,
+    @User() user: UserModel,
   ): Promise<UserModel | GraphQLError> {
     return this.userService.updatePassword(user.id, data)
   }
@@ -69,9 +76,12 @@ export class UserResolver {
    */
   @Subscription(() => UserModel, {
     nullable: true,
-    resolve: (payload: { [key: string]: UserModel }): UserModel => payload[PUB_SUB_USER.UPDATES],
+    resolve: (payload: { [key: string]: UserModel }): UserModel =>
+      payload[PUB_SUB_USER.UPDATES],
   })
-  async MeUpdates(): Promise<GraphQLError | AsyncIterator<unknown, unknown, undefined>> {
+  async MeUpdates(): Promise<
+    GraphQLError | AsyncIterator<unknown, unknown, undefined>
+  > {
     return this.pubSub.asyncIterator(PUB_SUB_USER.UPDATES)
   }
 }

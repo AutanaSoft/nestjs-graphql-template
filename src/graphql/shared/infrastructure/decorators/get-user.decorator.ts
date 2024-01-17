@@ -2,12 +2,14 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
 
 /**
- * Custom decorator to retrieve the current user from the request context.
+ * Custom decorator to retrieve the user object from the request context.
  * @param data - Optional data passed to the decorator.
- * @param context - The execution context.
- * @returns The current user object from the request context.
+ * @param context - The execution context of the request.
+ * @returns The user object from the request context.
  */
-export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext) => {
-  const ctx = GqlExecutionContext.create(context)
-  return ctx.getContext().req.user
-})
+export const User = createParamDecorator(
+  (data: unknown, context: ExecutionContext) => {
+    const ctx = GqlExecutionContext.create(context)
+    return ctx.getContext().req.user
+  },
+)

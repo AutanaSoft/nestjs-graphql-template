@@ -15,13 +15,14 @@ import { UserModule } from './user/user.module'
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useFactory: (config: ConfigService) => ({
+        cors: { origin: true, credentials: true },
         path: config.get<string>('GRAPHQL_PATH'),
         debug: config.get<boolean>('GRAPHQL_DEBUG'),
         playground: false,
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
         sortSchema: true,
-        context: ({ req, res }) => ({ req, res }),
+        // context: context => context,
         subscriptions: {
           'graphql-ws': true,
         },

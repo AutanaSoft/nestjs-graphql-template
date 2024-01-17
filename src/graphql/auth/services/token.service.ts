@@ -19,20 +19,15 @@ export class TokenService {
    * @returns The generated access token along with its creation and expiration dates.
    */
   public generateToken(payload: UserModel): AccessToken {
-    const { id, status, roles, email, userName } = payload
-    const token = this.jwtService.sign({
-      id,
-      status,
-      roles,
-      email,
-      userName,
-    })
+    const { id, email, userName } = payload
+    const token = this.jwtService.sign({ id, email, userName })
 
     return {
       token,
       createdAt: new Date(),
       expiresAt: new Date(
-        Date.now() + this.config.get<number>('JWT_EXPIRES_IN_MINUTES') * 60 * 1000,
+        Date.now() +
+          this.config.get<number>('JWT_EXPIRES_IN_MINUTES') * 60 * 1000,
       ),
     }
   }
