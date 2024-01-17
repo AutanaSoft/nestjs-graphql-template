@@ -8,10 +8,8 @@ import { AuthGuard } from '@nestjs/passport'
  */
 @Injectable()
 export class SetAuthAuthGuard extends AuthGuard('jwt') {
-  constructor() {
-    super()
-  }
   getRequest(context: ExecutionContext) {
+    console.log('SetAuthAuthGuard', context)
     const gqlCtx = GqlExecutionContext.create(context)
     const ctx = gqlCtx.getContext()
     return ctx.req

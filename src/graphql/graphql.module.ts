@@ -9,7 +9,6 @@ import { AuthModule } from './auth/auth.module'
 import { ErrorService } from './error.service'
 import { PubSubService } from './pub-sub.service'
 import { UserModule } from './user/user.module'
-
 @Module({
   imports: [
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
@@ -22,7 +21,6 @@ import { UserModule } from './user/user.module'
         plugins: [ApolloServerPluginLandingPageLocalDefault()],
         autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
         sortSchema: true,
-        // context: context => context,
         subscriptions: {
           'graphql-ws': true,
         },

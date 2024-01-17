@@ -1,6 +1,4 @@
-import { Res } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import { FastifyReply } from 'fastify'
 import { GraphQLError } from 'graphql'
 
 import { AccessToken } from './domain/dto/access-token.dto '
@@ -19,9 +17,7 @@ export class AuthResolver {
   @Query(() => AccessToken)
   async signIn(
     @Args() input: SignInInput,
-    @Res({ passthrough: true }) res: FastifyReply,
   ): Promise<AccessToken | GraphQLError> {
-    console.log('Res: ', res)
     return await this.authService.signIn(input)
   }
 
