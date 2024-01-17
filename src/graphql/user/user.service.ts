@@ -32,7 +32,9 @@ export class UserService {
    * @param params - The parameters for creating the user.
    * @returns A promise that resolves to the created user or a GraphQLError.
    */
-  async create(params: CustomCreateOneUserModelArgs): Promise<UserModel | GraphQLError> {
+  async create(
+    params: CustomCreateOneUserModelArgs,
+  ): Promise<UserModel | GraphQLError> {
     try {
       const exist = await this.repository.findFirst({
         where: {
@@ -85,7 +87,9 @@ export class UserService {
    * @param params - The parameters used to find the user.
    * @returns A promise that resolves to the found user or a GraphQLError if an error occurs.
    */
-  async find(params: FindUniqueUserModelArgs): Promise<UserModel | GraphQLError> {
+  async find(
+    params: FindUniqueUserModelArgs,
+  ): Promise<UserModel | GraphQLError> {
     try {
       return await this.repository.findUnique(params)
     } catch (error) {
@@ -100,13 +104,17 @@ export class UserService {
    * @param params - The parameters for updating the user.
    * @returns A Promise that resolves to the updated user or a GraphQLError if an error occurs.
    */
-  async update(params: UpdateOneUserModelArgs): Promise<UserModel | GraphQLError> {
+  async update(
+    params: UpdateOneUserModelArgs,
+  ): Promise<UserModel | GraphQLError> {
     try {
       if (params.data.password) {
         params.data.password = hashField(params.data.password)
       }
       const update = await this.repository.update(params)
-      await this.pubSub.publish(PUB_SUB_USER.UPDATES, { [PUB_SUB_USER.UPDATES]: update })
+      await this.pubSub.publish(PUB_SUB_USER.UPDATES, {
+        [PUB_SUB_USER.UPDATES]: update,
+      })
       return update
     } catch (error) {
       return this.errorService.set(error)

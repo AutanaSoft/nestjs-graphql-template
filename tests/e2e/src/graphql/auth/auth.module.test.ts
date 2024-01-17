@@ -1,4 +1,7 @@
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify'
 import { Test, TestingModule } from '@nestjs/testing'
 import request from 'supertest'
 
@@ -12,7 +15,9 @@ describe('Auth.Resolver', () => {
       imports: [AppModule],
     }).compile()
 
-    app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter())
+    app = moduleFixture.createNestApplication<NestFastifyApplication>(
+      new FastifyAdapter(),
+    )
     await app.init()
     await app.getHttpAdapter().getInstance().ready()
   })

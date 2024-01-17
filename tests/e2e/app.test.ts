@@ -1,4 +1,7 @@
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify'
 import { Test, TestingModule } from '@nestjs/testing'
 import request from 'supertest'
 
@@ -12,7 +15,9 @@ describe('Main', () => {
       imports: [AppModule],
     }).compile()
 
-    app = moduleFixture.createNestApplication<NestFastifyApplication>(new FastifyAdapter())
+    app = moduleFixture.createNestApplication<NestFastifyApplication>(
+      new FastifyAdapter(),
+    )
     await app.init()
     await app.getHttpAdapter().getInstance().ready()
   })
@@ -22,6 +27,9 @@ describe('Main', () => {
   })
 
   it('/GET /', () => {
-    return request(app.getHttpServer()).get('/').expect(200).expect({ status: 'ok' })
+    return request(app.getHttpServer())
+      .get('/')
+      .expect(200)
+      .expect({ status: 'ok' })
   })
 })

@@ -19,8 +19,12 @@ import { TokenService } from './services/token.service'
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
-        privateKey: fs.readFileSync(config.get<string>('JWT_PRIVATE_KEY')).toString(),
-        publicKey: fs.readFileSync(config.get<string>('JWT_PUBLIC_KEY')).toString(),
+        privateKey: fs
+          .readFileSync(config.get<string>('JWT_PRIVATE_KEY'))
+          .toString(),
+        publicKey: fs
+          .readFileSync(config.get<string>('JWT_PUBLIC_KEY'))
+          .toString(),
         signOptions: {
           expiresIn: config.get<number>('JWT_EXPIRES_IN_MINUTES') + 'm',
           algorithm: 'RS512',
@@ -30,6 +34,12 @@ import { TokenService } from './services/token.service'
     PrismaModule,
     UserModule,
   ],
-  providers: [ErrorService, JwtStrategy, AuthResolver, TokenService, AuthService],
+  providers: [
+    ErrorService,
+    JwtStrategy,
+    AuthResolver,
+    TokenService,
+    AuthService,
+  ],
 })
 export class AuthModule {}

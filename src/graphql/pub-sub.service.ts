@@ -23,7 +23,9 @@ export class PubSubService {
     }
   }
 
-  asyncIterator<T>(triggers: string | string[]): AsyncIterator<T> | GraphQLError {
+  asyncIterator<T>(
+    triggers: string | string[],
+  ): AsyncIterator<T> | GraphQLError {
     try {
       return this.pubSub.asyncIterator<T>(triggers)
     } catch (error) {
