@@ -8,15 +8,6 @@ type AccessToken {
   token: String!
 }
 
-input CustomUserModelCreateInput {
-  confirmPassword: String!
-  email: String!
-  password: String!
-  roles: Roles
-  status: Status
-  userName: String
-}
-
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -29,93 +20,30 @@ input DateTimeFilter {
   in: [DateTime!]
   lt: DateTime
   lte: DateTime
-  not: NestedDateTimeFilter
+  not: DateTimeFilter
   notIn: [DateTime!]
 }
 
-input EnumRolesFilter {
-  equals: Roles
-  in: [Roles!]
-  not: NestedEnumRolesFilter
-  notIn: [Roles!]
+input EnumUserRolesFilter {
+  equals: [UserRoles!]
+  has: UserRoles
+  hasEvery: [UserRoles!]
+  hasSome: [UserRoles!]
+  isEmpty: Boolean
 }
 
-input EnumStatusFilter {
-  equals: Status
-  in: [Status!]
-  not: NestedEnumStatusFilter
-  notIn: [Status!]
+input EnumUserStatusFilter {
+  equals: UserStatus
+  in: [UserStatus!]
+  not: EnumUserStatusFilter
+  notIn: [UserStatus!]
 }
 
 type Mutation {
-  createUser(data: CustomUserModelCreateInput!): UserModel!
+  createUser(data: UserModelCreateInput!): UserModel!
   signUp(confirmPassword: String!, email: String!, password: String!, userName: String): AccessToken!
   updatePassword(data: UserUpdatePasswordInput!): UserModel!
   updateUser(data: UserModelUpdateInput!, where: UserModelWhereUniqueInput!): UserModel!
-}
-
-input NestedDateTimeFilter {
-  equals: DateTime
-  gt: DateTime
-  gte: DateTime
-  in: [DateTime!]
-  lt: DateTime
-  lte: DateTime
-  not: NestedDateTimeFilter
-  notIn: [DateTime!]
-}
-
-input NestedEnumRolesFilter {
-  equals: Roles
-  in: [Roles!]
-  not: NestedEnumRolesFilter
-  notIn: [Roles!]
-}
-
-input NestedEnumStatusFilter {
-  equals: Status
-  in: [Status!]
-  not: NestedEnumStatusFilter
-  notIn: [Status!]
-}
-
-input NestedStringFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringFilter
-  notIn: [String!]
-  startsWith: String
-}
-
-input NestedStringNullableFilter {
-  contains: String
-  endsWith: String
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedStringNullableFilter
-  notIn: [String!]
-  startsWith: String
-}
-
-input NestedUuidFilter {
-  equals: String
-  gt: String
-  gte: String
-  in: [String!]
-  lt: String
-  lte: String
-  not: NestedUuidFilter
-  notIn: [String!]
 }
 
 type Query {
@@ -128,23 +56,6 @@ enum QueryMode {
   insensitive
 }
 
-enum Roles {
-  ADMIN
-  CUSTOMER
-  GUEST
-  INTERNAL
-}
-
-enum Status {
-  ACTIVE
-  BANNED
-  DELETED
-  FROZEN
-  INACTIVE
-  LOCKED
-  REGISTERED
-}
-
 input StringFilter {
   contains: String
   endsWith: String
@@ -155,7 +66,7 @@ input StringFilter {
   lt: String
   lte: String
   mode: QueryMode
-  not: NestedStringFilter
+  not: StringFilter
   notIn: [String!]
   startsWith: String
 }
@@ -170,7 +81,7 @@ input StringNullableFilter {
   lt: String
   lte: String
   mode: QueryMode
-  not: NestedStringNullableFilter
+  not: StringNullableFilter
   notIn: [String!]
   startsWith: String
 }
@@ -183,47 +94,25 @@ type UserModel {
   createdAt: DateTime!
   email: String!
   id: ID!
-  roles: Roles!
-  status: Status!
+  roles: [UserRoles!]
+  status: UserStatus!
   updatedAt: DateTime!
   userName: String
 }
 
-type UserModelCountAggregate {
-  _all: Int!
-  createdAt: Int!
-  email: Int!
-  id: Int!
-  roles: Int!
-  status: Int!
-  updatedAt: Int!
-  userName: Int!
-}
-
-type UserModelMaxAggregate {
-  createdAt: DateTime
-  email: String
-  id: String
-  roles: Roles
-  status: Status
-  updatedAt: DateTime
-  userName: String
-}
-
-type UserModelMinAggregate {
-  createdAt: DateTime
-  email: String
-  id: String
-  roles: Roles
-  status: Status
-  updatedAt: DateTime
+input UserModelCreateInput {
+  confirmPassword: String!
+  email: String!
+  password: String!
+  roles: [UserRoles!]
+  status: UserStatus
   userName: String
 }
 
 input UserModelUpdateInput {
   email: String
-  roles: Roles
-  status: Status
+  roles: [UserRoles!]
+  status: UserStatus
   userName: String
 }
 
@@ -234,9 +123,8 @@ input UserModelWhereInput {
   createdAt: DateTimeFilter
   email: StringFilter
   id: UuidFilter
-  password: StringFilter
-  roles: EnumRolesFilter
-  status: EnumStatusFilter
+  roles: EnumUserRolesFilter
+  status: EnumUserStatusFilter
   updatedAt: DateTimeFilter
   userName: StringNullableFilter
 }
@@ -249,10 +137,27 @@ input UserModelWhereUniqueInput {
   email: String
   id: String
   password: StringFilter
-  roles: EnumRolesFilter
-  status: EnumStatusFilter
+  roles: EnumUserRolesFilter
+  status: EnumUserStatusFilter
   updatedAt: DateTimeFilter
   userName: StringNullableFilter
+}
+
+enum UserRoles {
+  ADMIN
+  CUSTOMER
+  GUEST
+  INTERNAL
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+  DELETED
+  FROZEN
+  INACTIVE
+  LOCKED
+  REGISTERED
 }
 
 input UserUpdatePasswordInput {
@@ -269,6 +174,6 @@ input UuidFilter {
   lt: String
   lte: String
   mode: QueryMode
-  not: NestedUuidFilter
+  not: UuidFilter
   notIn: [String!]
 }

@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["commitlint", "fastify", "golevelup", "lcov", "nestjs", "tsnd"]
+  "cSpell.words": [
+    "commitlint",
+    "fastify",
+    "golevelup",
+    "lcov",
+    "nestjs",
+    "QLJSON",
+    "tsnd"
+  ]
 }

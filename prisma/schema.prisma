@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 datasource db {
@@ -10,58 +11,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator nestgraphql {
-  provider                              = "prisma-nestjs-graphql"
-  output                                = "../src/core/generated/prisma/graphql"
-  noAtomicOperations                    = true
-  combineScalarFilters                  = false
-  reExport                              = Directories
-  emitSingle                            = false
-  emitCompiled                          = false
-  purgeOutput                           = true
-  requireSingleFieldsInWhereUniqueInput = false
-  // field validator
-  fields_Validator_from                 = "class-validator"
-  fields_Validator_input                = true
-  // Args where|data nested validator
-  decorate_1_type                       = "*Args"
-  decorate_1_field                      = "@(data|where)"
-  decorate_1_name                       = ValidateNested
-  decorate_1_from                       = "class-validator"
-  decorate_1_arguments                  = "[]"
-  // Create Hide fields
-  decorate_2_type                       = "*CreateInput"
-  decorate_2_field                      = "@(id|createdAt|updatedAt)"
-  decorate_2_name                       = HideField
-  decorate_2_from                       = "@nestjs/graphql"
-  decorate_2_arguments                  = "[]"
-  // Create Hide fields
-  decorate_3_type                       = "*UpdateInput"
-  decorate_3_field                      = "@(id|password|createdAt|updatedAt)"
-  decorate_3_name                       = HideField
-  decorate_3_from                       = "@nestjs/graphql"
-  decorate_3_arguments                  = "[]"
-  // Create Optional validator
-  decorate_4_type                       = "*CreateInput"
-  decorate_4_field                      = "@(status|roles|userName)"
-  decorate_4_name                       = IsOptional
-  decorate_4_from                       = "class-validator"
-  decorate_4_arguments                  = "[]"
-  // Update Optional validator
-  decorate_5_type                       = "*UpdateInput"
-  decorate_5_field                      = "!(id|createdAt|updatedAt)"
-  decorate_5_name                       = IsOptional
-  decorate_5_from                       = "class-validator"
-  decorate_5_arguments                  = "[]"
-  // Update Optional validator
-  decorate_6_type                       = "*@(Create|Update)Input"
-  decorate_6_field                      = "email"
-  decorate_6_from                       = "class-transformer"
-  decorate_6_arguments                  = "['({ value }) => value.trim().toLowerCase()']"
-  decorate_6_name                       = Transform
-}
+// generator nestgraphql {
+//  provider           = "prisma-nestjs-graphql"
+//  output             = "../src/core/generated/prisma/graphql"
+//  noAtomicOperations = true
+//  reExport           = Directories
+// }
 
-enum Status {
+enum UserStatus {
   REGISTERED
   ACTIVE
   INACTIVE
@@ -71,7 +28,7 @@ enum Status {
   DELETED
 }
 
-enum Roles {
+enum UserRoles {
   GUEST
   CUSTOMER
   INTERNAL
@@ -79,28 +36,14 @@ enum Roles {
 }
 
 model UserModel {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  /// @Validator.IsEnum(Status)
-  status    Status   @default(REGISTERED)
-  /// @Validator.IsEnum(Roles)
-  roles     Roles    @default(CUSTOMER)
-  /// @Validator.IsEmail()
-  /// @Validator.MinLength(8)
-  /// @Validator.MaxLength(60)
-  email     String   @unique @db.VarChar(60)
-  /// @Validator.IsNotEmpty()
-  /// @Validator.IsString()
-  /// @Validator.MinLength(4)
-  /// @Validator.MaxLength(20)
-  userName  String?  @map("user_name") @db.VarChar(20)
-  /// @HideField({ output: true })
-  /// @Validator.IsNotEmpty()
-  /// @Validator.IsString()
-  /// @Validator.MinLength(8)
-  /// @Validator.MaxLength(16)
-  password  String   @db.VarChar(60)
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  status    UserStatus  @default(REGISTERED)
+  roles     UserRoles[] @default([CUSTOMER])
+  email     String      @unique @db.VarChar(60)
+  userName  String?     @map("user_name") @db.VarChar(20)
+  password  String      @db.VarChar(60)
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("users")
 }

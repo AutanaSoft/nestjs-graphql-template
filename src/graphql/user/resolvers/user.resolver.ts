@@ -1,18 +1,17 @@
+import { PUB_SUB_USER } from '@/graphql/shared/domain/constants/pub-sub/user'
+import { User } from '@/graphql/shared/infrastructure/decorators/get-user.decorator'
+import { JwtAuthGuard } from '@/graphql/shared/infrastructure/guard/jwt-auth.guard'
+import { PubSubService } from '@/graphql/shared/services/pub-sub.service'
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql'
 import { GraphQLError } from 'graphql'
-
-import {
-  UpdateOneUserModelArgs,
-  UserModel,
-} from '../../core/generated/prisma/graphql/user-model'
-import { JwtAuthGuard } from '../auth/infrastructure/guard/jwt-auth.guard'
-import { PubSubService } from '../pub-sub.service'
-import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user'
-import { User } from '../shared/infrastructure/decorators/get-user.decorator'
-import { CustomCreateOneUserModelArgs } from './domain/dto/custom-create-one-user-model.args'
-import { UserUpdatePasswordInput } from './domain/dto/user-update-password.input'
-import { UserService } from './user.service'
+import { CreateOneUserModelArgs } from '../domain/dto/create-one-user-model.args'
+import { UpdateOneUserModelArgs } from '../domain/dto/update-one-user-model.args'
+import { UserUpdatePasswordInput } from '../domain/dto/user-update-password.input'
+import { UserModel } from '../domain/dto/user.model'
+import { UserService } from '../services/user.service'
+import { CheckRoles } from '@/graphql/shared/infrastructure/decorators/check-user-roles.decorator'
+import { UserRoles } from '@prisma/client'
 
 @UseGuards(JwtAuthGuard)
 @Resolver(UserModel)
@@ -28,8 +27,9 @@ export class UserResolver {
    * @returns A promise that resolves to the created user or a GraphQLError.
    */
   @Mutation(() => UserModel)
+  @CheckRoles(UserRoles.ADMIN)
   async createUser(
-    @Args() args: CustomCreateOneUserModelArgs,
+    @Args() args: CreateOneUserModelArgs,
   ): Promise<UserModel | GraphQLError> {
     return this.userService.create(args)
   }

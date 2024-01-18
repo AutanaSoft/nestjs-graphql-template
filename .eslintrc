@@ -4,15 +4,14 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "eslint-plugin-simple-import-sort"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
-  "rules": {
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error"
-  },
+  "rules": {},
   "env": {
     "node": true,
     "jest": true

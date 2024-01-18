@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
+import { UserModel } from 'src/graphql/user/domain/dto/user.model'
 
-import { UserModel } from '../../../core/generated/prisma/graphql/user-model'
 import { AccessToken } from '../domain/dto/access-token.dto '
 import { TokenPayload } from '../domain/dto/token-payload.dto'
 

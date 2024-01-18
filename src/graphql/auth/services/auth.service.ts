@@ -1,14 +1,13 @@
+import { ErrorService } from '@/graphql/shared/services/error.service'
+import { hashField, verifyHashedField } from '@/graphql/shared/utils/hashField'
+import { PrismaService } from '@/prisma/prisma.service'
 import { HttpStatus, Injectable, Logger } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
 import { DefaultArgs } from '@prisma/client/runtime/library'
 import { GraphQLError } from 'graphql'
-
-import { ErrorService } from '../../../graphql/error.service'
-import { hashField, verifyHashedField } from '../../shared/utils/hashField'
 import { AccessToken } from '../domain/dto/access-token.dto '
 import { SignInInput } from '../domain/dto/sign-in-input.dto'
 import { SignUpInput } from '../domain/dto/sign-up-input.dto'
-import { PrismaService } from './../../../prisma/prisma.service'
 import { TokenService } from './token.service'
 
 @Injectable()

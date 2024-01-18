@@ -5,10 +5,10 @@ import { PassportModule } from '@nestjs/passport'
 import * as fs from 'fs'
 
 import { PrismaModule } from '../../prisma/prisma.module'
-import { ErrorService } from '../error.service'
+import { ErrorService } from '../shared/services/error.service'
+import { JwtStrategy } from '../shared/infrastructure/strategies/jwt-headers.strategy'
 import { UserModule } from '../user/user.module'
-import { AuthResolver } from './auth.resolver'
-import { JwtStrategy } from './infrastructure/strategies/jwt-headers.strategy'
+import { AuthResolver } from './resolvers/auth.resolver'
 import { AuthService } from './services/auth.service'
 import { TokenService } from './services/token.service'
 

@@ -6,8 +6,8 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 
 import { AuthModule } from './auth/auth.module'
-import { ErrorService } from './error.service'
-import { PubSubService } from './pub-sub.service'
+import { ErrorService } from './shared/services/error.service'
+import { PubSubService } from './shared/services/pub-sub.service'
 import { UserModule } from './user/user.module'
 @Module({
   imports: [

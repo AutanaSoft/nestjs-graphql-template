@@ -1,10 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GraphQLError } from 'graphql'
 
-import { AccessToken } from './domain/dto/access-token.dto '
-import { SignInInput } from './domain/dto/sign-in-input.dto'
-import { SignUpInput } from './domain/dto/sign-up-input.dto'
-import { AuthService } from './services/auth.service'
+import { AccessToken } from '../domain/dto/access-token.dto '
+import { SignInInput } from '../domain/dto/sign-in-input.dto'
+import { SignUpInput } from '../domain/dto/sign-up-input.dto'
+import { AuthService } from '../services/auth.service'
 @Resolver(AccessToken)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}

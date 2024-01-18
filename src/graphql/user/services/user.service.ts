@@ -1,18 +1,15 @@
+import { PUB_SUB_USER } from '@/graphql/shared/domain/constants/pub-sub/user'
+import { ErrorService } from '@/graphql/shared/services/error.service'
+import { PubSubService } from '@/graphql/shared/services/pub-sub.service'
+import { hashField } from '@/graphql/shared/utils/hashField'
+import { PrismaService } from '@/prisma/prisma.service'
 import { HttpStatus, Injectable, Logger } from '@nestjs/common'
 import { Prisma, UserModel } from '@prisma/client'
 import { GraphQLError } from 'graphql'
-
-import {
-  FindUniqueUserModelArgs,
-  UpdateOneUserModelArgs,
-} from '../../core/generated/prisma/graphql/user-model'
-import { PrismaService } from '../../prisma/prisma.service'
-import { ErrorService } from '../error.service'
-import { PubSubService } from '../pub-sub.service'
-import { PUB_SUB_USER } from '../shared/domain/constants/pub-sub/user'
-import { hashField } from '../shared/utils/hashField'
-import { CustomCreateOneUserModelArgs } from './domain/dto/custom-create-one-user-model.args'
-import { UserUpdatePasswordInput } from './domain/dto/user-update-password.input'
+import { CreateOneUserModelArgs } from '../domain/dto/create-one-user-model.args'
+import { FindUniqueUserModelArgs } from '../domain/dto/find-unique-user-model.args'
+import { UpdateOneUserModelArgs } from '../domain/dto/update-one-user-model.args'
+import { UserUpdatePasswordInput } from '../domain/dto/user-update-password.input'
 
 @Injectable()
 export class UserService {
@@ -33,7 +30,7 @@ export class UserService {
    * @returns A promise that resolves to the created user or a GraphQLError.
    */
   async create(
-    params: CustomCreateOneUserModelArgs,
+    params: CreateOneUserModelArgs,
   ): Promise<UserModel | GraphQLError> {
     try {
       const exist = await this.repository.findFirst({
@@ -108,9 +105,6 @@ export class UserService {
     params: UpdateOneUserModelArgs,
   ): Promise<UserModel | GraphQLError> {
     try {
-      if (params.data.password) {
-        params.data.password = hashField(params.data.password)
-      }
       const update = await this.repository.update(params)
       await this.pubSub.publish(PUB_SUB_USER.UPDATES, {
         [PUB_SUB_USER.UPDATES]: update,
