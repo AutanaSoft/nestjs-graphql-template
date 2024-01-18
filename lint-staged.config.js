@@ -2,7 +2,7 @@ const config = {
   '**/*.ts?(x)': () => 'tsc -p tsconfig.prod.json --noEmit',
   '*.{js,jsx,ts,tsx}': [
     'pnpm lint:fix',
-    'ts-jest --findRelatedTests --passWithNoTests',
+    'jest --findRelatedTests --passWithNoTests',
   ],
   '*.{md,json}': 'prettier --write',
 }
